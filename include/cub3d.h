@@ -14,6 +14,7 @@
 # define CUB3D_H
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include <MLX42/MLX42.h>
 # include "ft_printf.h"
@@ -24,9 +25,19 @@
 # define WIDTH 600
 # define HEIGHT 600
 
+typedef struct s_map {
+	char	*content;
+	int		col;
+	int		row;
+}	t_map;
+
 typedef struct s_game {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
+	t_map		*map;
 }	t_game;
+
+void    print_map(t_map map);
+void 	ft_hook(void *param);
 
 #endif

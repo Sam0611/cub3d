@@ -11,71 +11,60 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <stdlib.h>
-#include <stdbool.h>
+#include <fcntl.h>
 
-void ft_create_image(mlx_image_t *image)
+static char	*get_map(char *map_name)
 {
-	unsigned int	i;
-	unsigned int	j;
-	unsigned int	color;
+	int		fd;
+	char	*map;
 
-	color = 255 << 24 | 0 << 16 | 0 << 8 | 255;
-	i = 0;
-	while (i < image->width)
+	fd = open(map_name, O_RDWR, S_IRWXU);
+	if (fd < 0)
 	{
-		j = 0;
-		while (j < image->height)
-		{
-			if (i == IMG_SIZE / 2 || j == IMG_SIZE / 2)
-				mlx_put_pixel(image, i, j, color);
-			j++;
-		}
-		i++;
+		perror(map_name);
+		return (NULL);
 	}
+	map = get_all_lines(fd);
+	close(fd);
+	return (map);
 }
 
-void ft_hook(void *param)
+static int	check_map_name(char *map_name)
 {
-	t_game	*game;
-	
-	game = param;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(game->mlx);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_UP) && game->image->instances[0].y)
-		game->image->instances[0].y -= 5;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN) && game->image->instances[0].y < HEIGHT - IMG_SIZE)
-		game->image->instances[0].y += 5;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) && game->image->instances[0].x)
-		game->image->instances[0].x -= 5;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT) && game->image->instances[0].x < WIDTH - IMG_SIZE)
-		game->image->instances[0].x += 5;
+	int	len;
+
+	len = ft_strlen(map_name) - 4;
+	if (len <= 0 || ft_strncmp(map_name + len, ".cub", 5))
+	{
+		printf("Error\nFile not valid\n"); // afficher dans sortie 2
+		return (1);
+	}
+	return (0);
 }
 
-
-int	main()
+int	main(int ac, char **av)
 {
-	t_game		game;
-	mlx_image_t	*image;
+	t_map		map;
+	int			i;
 
-	game.mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
-	if (!game.mlx)
-		return(1);
-	image = mlx_new_image(game.mlx, IMG_SIZE, IMG_SIZE);
-	if (!image)
-	{
-		mlx_close_window(game.mlx);
-		return(1);
-	}
-	game.image = image;
-	if (mlx_image_to_window(game.mlx, game.image, 0, 0) == -1)
-	{
-		mlx_close_window(game.mlx);
-		return(1);
-	}
-	ft_create_image(game.image);
-	mlx_loop_hook(game.mlx, ft_hook, &game);
-	mlx_loop(game.mlx);
-	mlx_terminate(game.mlx);
+	if (ac != 2)
+		return (0);
+	if (check_map_name(av[1]))
+		return (0);
+	map.content = get_map(av[1]);
+	if (!map.content)
+		return (1);
+	i = ft_strlen(map.content) - 1;
+	map.col = ft_strsearch(map.content, '\n');
+	map.row = ft_countchar('\n', map.content);
+	if (map.content[i] != '\n')
+		map.row++;
+
+	print_map(map);
+	// if (!parse_map(map))
+	// 	print_map(map);
+	// else
+	// 	free(map.content);
+
 	return (0);
 }
