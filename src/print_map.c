@@ -30,22 +30,22 @@ unsigned int    get_color(int color_code)
     return (color);
 }
 
-void    ft_put_pixel(mlx_image_t *image, int x, int y, unsigned int color)
+// x is horizontal coordinates, y is vertical coordinates
+void    ft_put_pixel(mlx_image_t *image, unsigned int x, unsigned int y, unsigned int color)
 {
-    int initial_x;
-    int initial_y;
+    unsigned int initial_x;
+    unsigned int initial_y;
 
     initial_x = x;
     initial_y = y;
-    while (x < BLOCK_SIZE + initial_x)
+    while (x < BLOCK_SIZE + initial_x && x < image->width)
     {
         y = initial_y;
-        while (y < BLOCK_SIZE + initial_y)
+        while (y < BLOCK_SIZE + initial_y && y < image->height)
         {
             mlx_put_pixel(image, x, y, color);
             y++;
         }
-        mlx_put_pixel(image, x, y, color);
         x++;
     }
 }
@@ -62,8 +62,10 @@ void ft_create_image(t_game *game)
     {
         if (game->map->content[i] == '0')
             ft_put_pixel(game->image, pos[0], pos[1], get_color(WHITE));
-        if (game->map->content[i] == '1')
+        else if (game->map->content[i] == '1')
             ft_put_pixel(game->image, pos[0], pos[1], get_color(BLACK));
+        else
+            ft_put_pixel(game->image, pos[0], pos[1], get_color(RED));
         pos[0] += BLOCK_SIZE;
         i++;
         if (game->map->content[i] == '\n')
@@ -89,7 +91,7 @@ void    print_map(t_map map)
     game.mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
 	if (!game.mlx)
 		return ;
-	image = mlx_new_image(game.mlx, WIDTH, HEIGHT);
+	image = mlx_new_image(game.mlx, IMG_SIZE, IMG_SIZE);
 	if (!image)
 	{
 		mlx_close_window(game.mlx);

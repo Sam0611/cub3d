@@ -21,9 +21,9 @@
 # include "get_next_line.h"
 # include "ft_string.h"
 
-# define IMG_SIZE 30
-# define WIDTH 600
-# define HEIGHT 600
+# define IMG_SIZE 200
+# define WIDTH 1500
+# define HEIGHT 1000
 
 typedef struct s_map {
 	char	*content;
