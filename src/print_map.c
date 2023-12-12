@@ -54,10 +54,19 @@ void ft_create_image(t_game *game)
 {
 	unsigned int	i;
 	unsigned int	pos[2];
+    int             distance[3];
 
-	i = 0;
-    pos[0] = 0;
-    pos[1] = 0;
+    distance[0] = 0;
+    distance[1] = 0;
+    distance[2] = (IMG_SIZE - BLOCK_SIZE) / 2 / BLOCK_SIZE;
+    if (distance[2] >= game->player.x)
+    {
+        distance[0] = BLOCK_SIZE * (distance[2] - game->player.x + 1);
+        distance[2] = game->player.x - 1;
+    }
+    i = game->player.pos - distance[2];
+    pos[0] = distance[0];
+    pos[1] = distance[1];
     while (game->map->content[i])
     {
         if (game->map->content[i] == '0')
@@ -71,8 +80,8 @@ void ft_create_image(t_game *game)
         if (game->map->content[i] == '\n')
         {
             pos[1] += BLOCK_SIZE;
-            pos[0] = 0;
-            i++;
+            pos[0] = distance[0];
+            i += game->player.x - distance[2];
         }
     }
 
@@ -82,11 +91,32 @@ void ft_create_image(t_game *game)
     // 	mlx_put_pixel(game->image, i, j, get_color(WHITE));
 }
 
+void    get_player_coordinates(t_map map, t_player *player)
+{
+    int i;
+
+    player->pos = ft_strsearch_chars(map.content, "NSWE");
+    i = player->pos;
+    while (map.content[i] != '\n')
+        i--;
+    player->x = player->pos - i;
+    player->y = 1;
+    while (i > 0)
+    {
+        if (map.content[i] == '\n')
+            player->y++;
+        i--;
+    }
+}
+    
 void    print_map(t_map map)
 {
 	t_game		game;
+    t_player    player;
 	mlx_image_t	*image;
 
+    get_player_coordinates(map, &player);
+    game.player = player;
     game.map = &map;
     game.mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
 	if (!game.mlx)

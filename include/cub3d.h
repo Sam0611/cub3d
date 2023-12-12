@@ -21,7 +21,7 @@
 # include "get_next_line.h"
 # include "ft_string.h"
 
-# define IMG_SIZE 200
+# define IMG_SIZE 210
 # define WIDTH 1500
 # define HEIGHT 1000
 
@@ -31,10 +31,17 @@ typedef struct s_map {
 	int		row;
 }	t_map;
 
+typedef struct s_player {
+	int		pos;
+	int		x;
+	int		y;
+}	t_player;
+
 typedef struct s_game {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 	t_map		*map;
+	t_player	player;
 }	t_game;
 
 void    print_map(t_map map);
