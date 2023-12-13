@@ -32,10 +32,11 @@ MODULE_BONUS	=	printf gnl stdlib
 ${BUILD_DIR}/%.o : %.c
 	@${CC} ${CFLAGS} -c $< -o $@
 
-all:	libmlx ${NAME}
+#all:	libmlx ${NAME}
+all:	${NAME}
 
-libmlx:
-	@cmake ./MLX42 -B ./MLX42/build && make -C ./MLX42/build -j4
+#libmlx:
+#	@cmake ./MLX42 -B ./MLX42/build && make -C ./MLX42/build -j4
 
 ${NAME}:	${OBJS}
 	@make -j --no-print-directory ${MODULE} -C libft
