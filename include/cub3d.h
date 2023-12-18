@@ -26,13 +26,12 @@
 # define HEIGHT 1000
 
 typedef struct s_map {
-	char	*content;
-	int		col;
+	char	**content;
+	char	*name;
 	int		row;
 }	t_map;
 
 typedef struct s_player {
-	int		pos;
 	int		x;
 	int		y;
 }	t_player;
