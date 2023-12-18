@@ -47,7 +47,7 @@ bonus:	${OBJS_BONUS}
 
 clean:
 	@make --no-print-directory fclean -C libft
-	@rm -rf ./MLX42/build
+	# @rm -rf ./MLX42/build
 	@${RM} ${OBJS} ${OBJS_BONUS}
 
 fclean:	clean

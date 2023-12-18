@@ -16,6 +16,8 @@
 #define BLACK 2
 #define RED 3
 #define BLOCK_SIZE 30
+#define NOT_FOUND 4
+
 
 // default color = black
 unsigned int    get_color(int color_code)
@@ -52,45 +54,51 @@ void    ft_put_pixel(mlx_image_t *image, unsigned int x, unsigned int y, unsigne
 
 void ft_create_image(t_game *game)
 {
-    int i = 0;
+    unsigned int    i;
+    unsigned int    j;
+    unsigned int    pos[2];
+    int             distance;
+
+    distance = (IMG_SIZE - BLOCK_SIZE) / 2 / BLOCK_SIZE;
+    if (distance <= game->player.y)
+    {
+        i = game->player.y - distance;
+        pos[1] = 0;
+    }
+    else
+    {
+        i = 0;
+        pos[1] = (distance - game->player.y) * BLOCK_SIZE;
+    }
     while (game->map->content[i])
     {
-        printf("%s\n", game->map->content[i]);
+        if (distance <= game->player.x)
+        {
+            j = game->player.x - distance;
+            pos[0] = 0;
+        }
+        else
+        {
+            j = 0;
+            pos[0] = (distance - game->player.x) * BLOCK_SIZE;
+        }
+        if (j < ft_strlen(game->map->content[i]))
+        {
+            while (game->map->content[i][j])
+            {
+                if (game->map->content[i][j] == '0')
+                    ft_put_pixel(game->image, pos[0], pos[1], get_color(WHITE));
+                else if (game->map->content[i][j] == '1')
+                    ft_put_pixel(game->image, pos[0], pos[1], get_color(BLACK));
+                else if (ft_strsearch("NSWE", game->map->content[i][j]) != NOT_FOUND)
+                    ft_put_pixel(game->image, pos[0], pos[1], get_color(RED));
+                j++;
+                pos[0] += BLOCK_SIZE;
+            }
+        }
         i++;
+        pos[1] += BLOCK_SIZE;
     }
-
-	// unsigned int	i;
-	// unsigned int	pos[2];
-    // int             distance[3];
-
-    // distance[0] = 0;
-    // distance[1] = 0;
-    // distance[2] = (IMG_SIZE - BLOCK_SIZE) / 2 / BLOCK_SIZE;
-    // if (distance[2] >= game->player.x)
-    // {
-    //     distance[0] = BLOCK_SIZE * (distance[2] - game->player.x + 1);
-    //     distance[2] = game->player.x - 1;
-    // }
-    // i = game->player.pos - distance[2];
-    // pos[0] = distance[0];
-    // pos[1] = distance[1];
-    // while (game->map->content[i])
-    // {
-    //     if (game->map->content[i] == '0')
-    //         ft_put_pixel(game->image, pos[0], pos[1], get_color(WHITE));
-    //     else if (game->map->content[i] == '1')
-    //         ft_put_pixel(game->image, pos[0], pos[1], get_color(BLACK));
-    //     else
-    //         ft_put_pixel(game->image, pos[0], pos[1], get_color(RED));
-    //     pos[0] += BLOCK_SIZE;
-    //     i++;
-    //     if (game->map->content[i] == '\n')
-    //     {
-    //         pos[1] += BLOCK_SIZE;
-    //         pos[0] = distance[0];
-    //         i += game->player.x - distance[2];
-    //     }
-    // }
 
     // if (i == IMG_SIZE / 2 || j == IMG_SIZE / 2)
     // 	mlx_put_pixel(game->image, i, j, get_color(RED));
@@ -106,7 +114,7 @@ void    get_player_coordinates(t_map map, t_player *player)
     while (map.content[i])
     {
         player->x = ft_strsearch_chars(map.content[i], "NSWE");
-        if (map.content[player->x])
+        if (map.content[i][player->x])
             break ;
         i++;
     }
