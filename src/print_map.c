@@ -10,12 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+// perso rond au lieu de carré
+// norminette
+// raycasting
+// 3D
+
 #include "cub3d.h"
 
 #define WHITE 1
 #define BLACK 2
 #define RED 3
-#define BLOCK_SIZE 30
+#define GREY 4
+#define BLOCK_SIZE 10
 #define NOT_FOUND 4
 
 
@@ -27,6 +33,8 @@ unsigned int    get_color(int color_code)
     color = 0 << 24 | 0 << 16 | 0 << 8 | 255;
     if (color_code == WHITE)
         color = 255 << 24 | 255 << 16 | 255 << 8 | 255;
+    if (color_code == GREY)
+        color = 100 << 24 | 100 << 16 | 100 << 8 | 100;
     if (color_code == RED)
         color = 255 << 24 | 0 << 16 | 0 << 8 | 255;
     return (color);
@@ -52,13 +60,32 @@ void    ft_put_pixel(mlx_image_t *image, unsigned int x, unsigned int y, unsigne
     }
 }
 
+void    draw_map(mlx_image_t *image)
+{
+    unsigned int x;
+    unsigned int y;
+
+    x = 0;
+    while (x < image->width)
+    {
+        y = 0;
+        while (y < image->height)
+        {
+            mlx_put_pixel(image, x, y, get_color(GREY));
+            y++;
+        }
+        x++;
+    }
+}
+
 void ft_create_image(t_game *game)
 {
-    unsigned int    i;
-    unsigned int    j;
+    int    i;
+    int    j;
     unsigned int    pos[2];
     int             distance;
 
+    draw_map(game->image);
     distance = (IMG_SIZE - BLOCK_SIZE) / 2 / BLOCK_SIZE;
     if (distance <= game->player.y)
     {
@@ -82,16 +109,16 @@ void ft_create_image(t_game *game)
             j = 0;
             pos[0] = (distance - game->player.x) * BLOCK_SIZE;
         }
-        if (j < ft_strlen(game->map->content[i]))
+        if (j < (int)ft_strlen(game->map->content[i]))
         {
             while (game->map->content[i][j])
             {
-                if (game->map->content[i][j] == '0')
+                if (i == game->player.y && j == game->player.x)
+                    ft_put_pixel(game->image, pos[0], pos[1], get_color(RED));
+                else if (game->map->content[i][j] == '0')
                     ft_put_pixel(game->image, pos[0], pos[1], get_color(WHITE));
                 else if (game->map->content[i][j] == '1')
                     ft_put_pixel(game->image, pos[0], pos[1], get_color(BLACK));
-                else if (ft_strsearch("NSWE", game->map->content[i][j]) != NOT_FOUND)
-                    ft_put_pixel(game->image, pos[0], pos[1], get_color(RED));
                 j++;
                 pos[0] += BLOCK_SIZE;
             }
@@ -99,11 +126,6 @@ void ft_create_image(t_game *game)
         i++;
         pos[1] += BLOCK_SIZE;
     }
-
-    // if (i == IMG_SIZE / 2 || j == IMG_SIZE / 2)
-    // 	mlx_put_pixel(game->image, i, j, get_color(RED));
-    // else
-    // 	mlx_put_pixel(game->image, i, j, get_color(WHITE));
 }
 
 void    get_player_coordinates(t_map map, t_player *player)
@@ -119,6 +141,7 @@ void    get_player_coordinates(t_map map, t_player *player)
         i++;
     }
     player->y = i;
+    map.content[player->y][player->x] = '0';
 }
     
 void    print_map(t_map map)

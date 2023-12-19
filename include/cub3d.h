@@ -45,5 +45,6 @@ typedef struct s_game {
 
 void    print_map(t_map map);
 void 	ft_hook(void *param);
+void	ft_create_image(t_game *game);
 
 #endif
