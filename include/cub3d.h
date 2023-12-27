@@ -32,8 +32,8 @@ typedef struct s_map {
 }	t_map;
 
 typedef struct s_player {
-	int		x;
-	int		y;
+	float		x;
+	float		y;
 }	t_player;
 
 typedef struct s_game {

@@ -106,7 +106,7 @@ void	ft_create_image(t_game *game)
 		init_params(distance, game->player.x, &j, pos);
 		while (j < (int)ft_strlen(game->map->content[i]))
 		{
-			if (i == game->player.y && j == game->player.x)
+			if (i == (int)game->player.y && j == (int)game->player.x)
 				ft_put_pixel(game->image, pos[0], pos[1], get_color(RED));
 			else if (game->map->content[i][j] == '0')
 				ft_put_pixel(game->image, pos[0], pos[1], get_color(WHITE));
@@ -123,17 +123,19 @@ void	ft_create_image(t_game *game)
 void	get_player_coordinates(t_map map, t_player *player)
 {
 	int	i;
+	int	j;
 
 	i = 0;
 	while (map.content[i])
 	{
-		player->x = ft_strsearch_chars(map.content[i], "NSWE");
-		if (map.content[i][player->x])
+		j = ft_strsearch_chars(map.content[i], "NSWE");
+		if (map.content[i][j])
 			break ;
 		i++;
 	}
 	player->y = i;
-	map.content[player->y][player->x] = '0';
+	player->x = j;
+	map.content[i][j] = '0';
 }
 
 void	print_map(t_map map)
