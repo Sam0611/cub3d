@@ -1,4 +1,78 @@
 Algo Digital Differential Analysis
 
+FOV = field of view
+
+posX
+posY
+dirX = -1
+dirY = 0
+planeX = 0
+planeY = 0.66
+time
+oldtime
+cameraX
+rayDirX = dirX + planeX + cameraX
+rayDirY = dirY + planeY + cameraY
+
+box of map we're in
+mapX = (int)posX
+mapY = (int)posy
+
+length of ray from current position to next x or y-side
+sideDistX;
+sideDistY;
+
+length of ray from one x or y-side to next x or y-side
+deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX))
+deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY))
+
+int hit = 0; //was there a wall hit?
+int side; //was a NS or a EW wall hit?
+
+
+
+
+
+VIDEO
+
 Degre = 	0		90		180 	360
 Radian = 	2pi		pi/2	pi		3pi/2
+
+pdx = player delta x
+pdy = player delta y
+pa = player angle
+
+float px, py, pdx, pdy, pa
+
+if (key == a)
+{
+	pa -= 0.1;
+	if (pa < 0)
+		pa += 2 * pi;
+	pdx = cos(pa) * 5;
+	pdy = sin(pa) * 5;
+}
+if (key == d)
+{
+	pa += 0.1;
+	if (pa > 2 * pi)
+		pa -= 2 * pi;
+	pdx = cos(pa) * 5;
+	pdy = sin(pa) * 5;
+}
+if (key == w)
+{
+	px += pdx;
+	py += pdy;
+}
+if (key == s)
+{
+	px -= pdx;
+	py -= pdy;
+}
+
+void init()
+{
+	pdx = cos(pa) * 5;
+	pdy = sin(pa) * 5;
+}
