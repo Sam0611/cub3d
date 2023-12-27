@@ -6,12 +6,11 @@
 /*   By: smalloir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 14:07:41 by smalloir          #+#    #+#             */
-/*   Updated: 2023/12/10 14:07:43 by smalloir         ###   ########.fr       */
+/*   Updated: 2023/12/27 03:41:34 by smalloir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // perso rond au lieu de carré
-// norminette
 // raycasting
 // 3D
 
@@ -24,136 +23,129 @@
 #define BLOCK_SIZE 10
 #define NOT_FOUND 4
 
-
 // default color = black
-unsigned int    get_color(int color_code)
+unsigned int	get_color(int color_code)
 {
-    unsigned int    color;
+	unsigned int	color;
 
-    color = 0 << 24 | 0 << 16 | 0 << 8 | 255;
-    if (color_code == WHITE)
-        color = 255 << 24 | 255 << 16 | 255 << 8 | 255;
-    if (color_code == GREY)
-        color = 100 << 24 | 100 << 16 | 100 << 8 | 100;
-    if (color_code == RED)
-        color = 255 << 24 | 0 << 16 | 0 << 8 | 255;
-    return (color);
+	color = 0 << 24 | 0 << 16 | 0 << 8 | 255;
+	if (color_code == WHITE)
+		color = 255 << 24 | 255 << 16 | 255 << 8 | 255;
+	if (color_code == GREY)
+		color = 100 << 24 | 100 << 16 | 100 << 8 | 100;
+	if (color_code == RED)
+		color = 255 << 24 | 0 << 16 | 0 << 8 | 255;
+	return (color);
 }
 
 // x is horizontal coordinates, y is vertical coordinates
-void    ft_put_pixel(mlx_image_t *image, unsigned int x, unsigned int y, unsigned int color)
+void	ft_put_pixel(mlx_image_t *image,
+		unsigned int x, unsigned int y, unsigned int color)
 {
-    unsigned int initial_x;
-    unsigned int initial_y;
+	unsigned int	initial_x;
+	unsigned int	initial_y;
 
-    initial_x = x;
-    initial_y = y;
-    while (x < BLOCK_SIZE + initial_x && x < image->width)
-    {
-        y = initial_y;
-        while (y < BLOCK_SIZE + initial_y && y < image->height)
-        {
-            mlx_put_pixel(image, x, y, color);
-            y++;
-        }
-        x++;
-    }
+	initial_x = x;
+	initial_y = y;
+	while (x < BLOCK_SIZE + initial_x && x < image->width)
+	{
+		y = initial_y;
+		while (y < BLOCK_SIZE + initial_y && y < image->height)
+		{
+			mlx_put_pixel(image, x, y, color);
+			y++;
+		}
+		x++;
+	}
 }
 
-void    draw_map(mlx_image_t *image)
+void	draw_map_background(mlx_image_t *image)
 {
-    unsigned int x;
-    unsigned int y;
+	unsigned int	x;
+	unsigned int	y;
 
-    x = 0;
-    while (x < image->width)
-    {
-        y = 0;
-        while (y < image->height)
-        {
-            mlx_put_pixel(image, x, y, get_color(GREY));
-            y++;
-        }
-        x++;
-    }
+	x = 0;
+	while (x < image->width)
+	{
+		y = 0;
+		while (y < image->height)
+		{
+			mlx_put_pixel(image, x, y, get_color(GREY));
+			y++;
+		}
+		x++;
+	}
 }
 
-void ft_create_image(t_game *game)
+void	init_params(int dist, int player_pos, int *i, unsigned int *pixel_pos)
 {
-    int    i;
-    int    j;
-    unsigned int    pos[2];
-    int             distance;
-
-    draw_map(game->image);
-    distance = (IMG_SIZE - BLOCK_SIZE) / 2 / BLOCK_SIZE;
-    if (distance <= game->player.y)
-    {
-        i = game->player.y - distance;
-        pos[1] = 0;
-    }
-    else
-    {
-        i = 0;
-        pos[1] = (distance - game->player.y) * BLOCK_SIZE;
-    }
-    while (game->map->content[i])
-    {
-        if (distance <= game->player.x)
-        {
-            j = game->player.x - distance;
-            pos[0] = 0;
-        }
-        else
-        {
-            j = 0;
-            pos[0] = (distance - game->player.x) * BLOCK_SIZE;
-        }
-        if (j < (int)ft_strlen(game->map->content[i]))
-        {
-            while (game->map->content[i][j])
-            {
-                if (i == game->player.y && j == game->player.x)
-                    ft_put_pixel(game->image, pos[0], pos[1], get_color(RED));
-                else if (game->map->content[i][j] == '0')
-                    ft_put_pixel(game->image, pos[0], pos[1], get_color(WHITE));
-                else if (game->map->content[i][j] == '1')
-                    ft_put_pixel(game->image, pos[0], pos[1], get_color(BLACK));
-                j++;
-                pos[0] += BLOCK_SIZE;
-            }
-        }
-        i++;
-        pos[1] += BLOCK_SIZE;
-    }
+	if (dist <= player_pos)
+	{
+		*i = player_pos - dist;
+		*pixel_pos = 0;
+	}
+	else
+	{
+		*i = 0;
+		*pixel_pos = (dist - player_pos) * BLOCK_SIZE;
+	}
 }
 
-void    get_player_coordinates(t_map map, t_player *player)
+void	ft_create_image(t_game *game)
 {
-    int i;
+	int				i;
+	int				j;
+	unsigned int	pos[2];
+	int				distance;
 
-    i = 0;
-    while (map.content[i])
-    {
-        player->x = ft_strsearch_chars(map.content[i], "NSWE");
-        if (map.content[i][player->x])
-            break ;
-        i++;
-    }
-    player->y = i;
-    map.content[player->y][player->x] = '0';
+	draw_map_background(game->image);
+	distance = (IMG_SIZE - BLOCK_SIZE) / 2 / BLOCK_SIZE;
+	init_params(distance, game->player.y, &i, pos + 1);
+	while (game->map->content[i])
+	{
+		init_params(distance, game->player.x, &j, pos);
+		while (j < (int)ft_strlen(game->map->content[i]))
+		{
+			if (i == game->player.y && j == game->player.x)
+				ft_put_pixel(game->image, pos[0], pos[1], get_color(RED));
+			else if (game->map->content[i][j] == '0')
+				ft_put_pixel(game->image, pos[0], pos[1], get_color(WHITE));
+			else if (game->map->content[i][j] == '1')
+				ft_put_pixel(game->image, pos[0], pos[1], get_color(BLACK));
+			j++;
+			pos[0] += BLOCK_SIZE;
+		}
+		i++;
+		pos[1] += BLOCK_SIZE;
+	}
 }
-    
-void    print_map(t_map map)
+
+void	get_player_coordinates(t_map map, t_player *player)
+{
+	int	i;
+
+	i = 0;
+	while (map.content[i])
+	{
+		player->x = ft_strsearch_chars(map.content[i], "NSWE");
+		if (map.content[i][player->x])
+			break ;
+		i++;
+	}
+	player->y = i;
+	map.content[player->y][player->x] = '0';
+}
+
+void	print_map(t_map map)
 {
 	t_game		game;
-    t_player    player;
+	t_player	player;
 	mlx_image_t	*image;
 
-    get_player_coordinates(map, &player);
-    game.player = player;
-    game.map = &map;
-    game.mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
+	get_player_coordinates(map, &player);
+	game.player = player;
+	game.map = &map;
+	game.mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
 	if (!game.mlx)
 		return ;
 	image = mlx_new_image(game.mlx, IMG_SIZE, IMG_SIZE);
