@@ -135,6 +135,7 @@ void	get_player_coordinates(t_map map, t_player *player)
 	}
 	player->y = i;
 	player->x = j;
+	player->dir = map.content[i][j];
 	map.content[i][j] = '0';
 }
 
@@ -145,6 +146,7 @@ void	print_map(t_map map)
 	mlx_image_t	*image;
 
 	get_player_coordinates(map, &player);
+	set_player_direction(&player);
 	game.player = player;
 	game.map = &map;
 	game.mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);

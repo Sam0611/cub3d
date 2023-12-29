@@ -38,6 +38,7 @@ typedef struct s_player {
 	double		dirY;
 	double		planeX;
 	double		planeY;
+	int			dir;
 }	t_player;
 
 typedef struct s_game {
@@ -70,5 +71,7 @@ typedef struct s_ray {
 void    print_map(t_map map);
 void 	ft_hook(void *param);
 void	ft_create_image(t_game *game);
+void	set_player_direction(t_player *player);
+void	raycasting(t_game *game, t_ray *ray);
 
 #endif

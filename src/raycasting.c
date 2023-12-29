@@ -12,39 +12,39 @@
 
 #include "cub3d.h"
 
-static void	init_raycasting_info(int i, t_ray *ray, t_player *player)
+static void	init_raycasting_info(int i, t_ray *ray, t_player player)
 {
 	//init_ray(ray); put all values to 0
-	ray->cameraX = 2 * i / (double)WIN_WIDTH - 1;
-	ray->dirX = player->dirX + player->planeX * ray->cameraX;
-	ray->dirY = player->dirY + player->planeY * ray->cameraX;
-	ray->mapX = (int)player->x;
-	ray->mapY = (int)player->y;
+	ray->mapX = (int)player.x;
+	ray->mapY = (int)player.y;
+	ray->cameraX = 2 * i / (double)WIDTH - 1;
+	ray->dirX = player.dirX + player.planeX * ray->cameraX;
+	ray->dirY = player.dirY + player.planeY * ray->cameraX;
 	ray->deltadistX = fabs(1 / ray->dirX);
 	ray->deltadistY = fabs(1 / ray->dirY);
 }
 
-static void	set_dda_values(t_ray *ray, t_player *player)
+static void	set_dda_values(t_ray *ray, t_player player)
 {
 	if (ray->dirX < 0)
 	{
 		ray->stepX = -1;
-		ray->sidedistX = (player->x - ray->mapX) * ray->deltadistX;
+		ray->sidedistX = (player.x - ray->mapX) * ray->deltadistX;
 	}
 	else
 	{
 		ray->stepX = 1;
-		ray->sidedistX = (ray->mapX + 1.0 - player->x) * ray->deltadistX;
+		ray->sidedistX = (ray->mapX + 1.0 - player.x) * ray->deltadistX;
 	}
 	if (ray->dirY < 0)
 	{
 		ray->stepY = -1;
-		ray->sidedistY = (player->y - ray->mapY) * ray->deltadistY;
+		ray->sidedistY = (player.y - ray->mapY) * ray->deltadistY;
 	}
 	else
 	{
 		ray->stepY = 1;
-		ray->sidedistY = (ray->mapY + 1.0 - player->y) * ray->deltadistY;
+		ray->sidedistY = (ray->mapY + 1.0 - player.y) * ray->deltadistY;
 	}
 }
 
@@ -80,7 +80,7 @@ void	raycasting(t_game *game, t_ray *ray)
 	int	i;
 
 	i = 0;
-	while (i < win_width)
+	while (i < WIDTH)
 	{
 		init_raycasting_info(i, ray, game->player);
 		set_dda_values(ray, game->player);

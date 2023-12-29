@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		=	main.c print_map.c move.c
+SRCS		=	main.c print_map.c move.c set_player_direction.c raycasting.c
 SRCS_BONUS	=	main_bonus.c
 OBJS		=	${addprefix ${BUILD_DIR}/,${SRCS:c=o}}
 OBJS_BONUS	=	${addprefix ${BUILD_DIR}/,${SRCS_BONUS:c=o}}
