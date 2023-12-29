@@ -32,8 +32,12 @@ typedef struct s_map {
 }	t_map;
 
 typedef struct s_player {
-	float		x;
-	float		y;
+	double		x;
+	double		y;
+	double		dirX;
+	double		dirY;
+	double		planeX;
+	double		planeY;
 }	t_player;
 
 typedef struct s_game {
@@ -42,6 +46,26 @@ typedef struct s_game {
 	t_map		*map;
 	t_player	player;
 }	t_game;
+
+typedef struct s_ray {
+	double	cameraX;
+	double	dirX;
+	double	dirY;
+	int		mapX;
+	int		mapY;
+	int		stepX;
+	int		stepY;
+	double	sidedistX;
+	double	sidedistY;
+	double	deltadistX;
+	double	deltadistY;
+	double	walldist;
+	double	wallX;
+	int		side;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+}	t_ray;
 
 void    print_map(t_map map);
 void 	ft_hook(void *param);

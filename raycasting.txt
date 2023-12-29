@@ -2,21 +2,30 @@ Algo Digital Differential Analysis
 
 FOV = field of view
 
-posX
-posY
+posX = player->x
+posY = player->y
 dirX = -1
 dirY = 0
 planeX = 0
 planeY = 0.66
-time
-oldtime
-cameraX
-rayDirX = dirX + planeX + cameraX
-rayDirY = dirY + planeY + cameraY
+time = 0
+oldtime = 0
+
+while (x < win_width)
+{
+	cameraX = 2 * x / (double)win_width - 1;
+	rayDirX = dirX + planeX * cameraX;
+	rayDirY = dirY + planeY * cameraX;
+	mapX = (int)posX
+	mapY = (int)posY
+	ray->deltadist_x = fabs(1 / ray->dir_x);
+	ray->deltadist_y = fabs(1 / ray->dir_y);
+	x++;
+}
 
 box of map we're in
 mapX = (int)posX
-mapY = (int)posy
+mapY = (int)posY
 
 length of ray from current position to next x or y-side
 sideDistX;
@@ -28,6 +37,54 @@ deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY))
 
 int hit = 0; //was there a wall hit?
 int side; //was a NS or a EW wall hit?
+
+perpWallDist
+
+what direction to step in x or y-direction (either +1 or -1)
+int stepX;
+int stepY;
+
+if(rayDirX < 0)
+{
+	stepX = -1;
+	sideDistX = (posX - mapX) * deltaDistX;
+}
+else
+{
+	stepX = 1;
+	sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+}
+if(rayDirY < 0)
+{
+	stepY = -1;
+	sideDistY = (posY - mapY) * deltaDistY;
+}
+else
+{
+	stepY = 1;
+	sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+}
+
+while(hit == 0)
+{
+	//jump to next map square, either in x-direction, or in y-direction
+	if(sideDistX < sideDistY)
+	{
+		sideDistX += deltaDistX;
+		mapX += stepX;
+		side = 0;
+	}
+	else
+	{
+		sideDistY += deltaDistY;
+		mapY += stepY;
+		side = 1;
+	}
+	//Check if ray has hit a wall
+	if(worldMap[mapX][mapY] > 0) hit = 1;
+}
+
+
 
 
 
