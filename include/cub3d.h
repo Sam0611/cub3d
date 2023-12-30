@@ -21,9 +21,20 @@
 # include "get_next_line.h"
 # include "ft_string.h"
 
-# define IMG_SIZE 210
+# define MAP_SIZE 210
 # define WIDTH 1500
 # define HEIGHT 1000
+
+enum e_color
+{
+	WHITE,
+	BLACK,
+	GREY,
+	YELLOW,
+	RED,
+	GREEN,
+	BLUE
+};
 
 typedef struct s_map {
 	char	**content;
@@ -68,10 +79,12 @@ typedef struct s_ray {
 	int		draw_end;
 }	t_ray;
 
-void    print_map(t_map map);
-void 	ft_hook(void *param);
-void	ft_create_image(t_game *game);
-void	set_player_direction(t_player *player);
-void	raycasting(t_game *game, t_ray *ray);
+void			print_map(t_map map);
+void 			ft_hook(void *param);
+void			ft_create_image(t_game *game);
+void			set_player_direction(t_player *player);
+void			raycasting(t_game game, t_ray *ray);
+unsigned int	get_color(int color_code);
+void			print_view(t_game *game, t_ray ray);
 
 #endif

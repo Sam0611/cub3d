@@ -48,7 +48,7 @@ static void	set_dda_values(t_ray *ray, t_player player)
 	}
 }
 
-static void	apply_dda(t_game *game, t_ray *ray)
+static void	apply_dda(char **map, t_ray *ray)
 {
 	int	hit;
 
@@ -70,21 +70,42 @@ static void	apply_dda(t_game *game, t_ray *ray)
 		if (ray->mapY < 0.25 || ray->mapX < 0.25
 			|| ray->mapY > HEIGHT - 0.25 || ray->mapX > WIDTH - 1.25)
 			break ;
-		else if (game->map->content[ray->mapY][ray->mapX] == '1')
+		else if (map[ray->mapY][ray->mapX] == '1')
 			hit = 1;
 	}
 }
 
-void	raycasting(t_game *game, t_ray *ray)
+static void	get_line_height(t_ray *ray, t_player player)
+{
+	if (ray->side == 0)
+		ray->walldist = (ray->sidedistX - ray->deltadistX);
+	else
+		ray->walldist = (ray->sidedistY - ray->deltadistY);
+	ray->line_height = (int)(HEIGHT / ray->walldist);
+	ray->draw_start = -(ray->line_height) / 2 + HEIGHT / 2;
+	if (ray->draw_start < 0)
+		ray->draw_start = 0;
+	ray->draw_end = ray->line_height / 2 + HEIGHT / 2;
+	if (ray->draw_end >= HEIGHT)
+		ray->draw_end = HEIGHT - 1;
+	if (ray->side == 0)
+		ray->wallX = player.y + ray->walldist * ray->dirY;
+	else
+		ray->wallX = player.x + ray->walldist * ray->dirX;
+	ray->wallX -= floor(ray->wallX);
+}
+
+void	raycasting(t_game game, t_ray *ray)
 {
 	int	i;
 
 	i = 0;
 	while (i < WIDTH)
 	{
-		init_raycasting_info(i, ray, game->player);
-		set_dda_values(ray, game->player);
-		apply_dda(game, ray);
+		init_raycasting_info(i, ray, game.player);
+		set_dda_values(ray, game.player);
+		apply_dda(game.map->content, ray);
+		get_line_height(ray, game.player);
 		i++;
 	}
 }

@@ -16,27 +16,8 @@
 
 #include "cub3d.h"
 
-#define WHITE 1
-#define BLACK 2
-#define RED 3
-#define GREY 4
 #define BLOCK_SIZE 10
 #define NOT_FOUND 4
-
-// default color = black
-unsigned int	get_color(int color_code)
-{
-	unsigned int	color;
-
-	color = 0 << 24 | 0 << 16 | 0 << 8 | 255;
-	if (color_code == WHITE)
-		color = 255 << 24 | 255 << 16 | 255 << 8 | 255;
-	if (color_code == GREY)
-		color = 100 << 24 | 100 << 16 | 100 << 8 | 100;
-	if (color_code == RED)
-		color = 255 << 24 | 0 << 16 | 0 << 8 | 255;
-	return (color);
-}
 
 // x is horizontal coordinates, y is vertical coordinates
 void	ft_put_pixel(mlx_image_t *image,
@@ -47,10 +28,10 @@ void	ft_put_pixel(mlx_image_t *image,
 
 	initial_x = x;
 	initial_y = y;
-	while (x < BLOCK_SIZE + initial_x && x < image->width)
+	while (x < BLOCK_SIZE + initial_x && x < MAP_SIZE)
 	{
 		y = initial_y;
-		while (y < BLOCK_SIZE + initial_y && y < image->height)
+		while (y < BLOCK_SIZE + initial_y && y < MAP_SIZE)
 		{
 			mlx_put_pixel(image, x, y, color);
 			y++;
@@ -65,10 +46,10 @@ void	draw_map_background(mlx_image_t *image)
 	unsigned int	y;
 
 	x = 0;
-	while (x < image->width)
+	while (x < MAP_SIZE)
 	{
 		y = 0;
-		while (y < image->height)
+		while (y < MAP_SIZE)
 		{
 			mlx_put_pixel(image, x, y, get_color(GREY));
 			y++;
@@ -99,7 +80,7 @@ void	ft_create_image(t_game *game)
 	int				distance;
 
 	draw_map_background(game->image);
-	distance = (IMG_SIZE - BLOCK_SIZE) / 2 / BLOCK_SIZE;
+	distance = (MAP_SIZE - BLOCK_SIZE) / 2 / BLOCK_SIZE;
 	init_params(distance, game->player.y, &i, pos + 1);
 	while (game->map->content[i])
 	{
@@ -143,6 +124,7 @@ void	print_map(t_map map)
 {
 	t_game		game;
 	t_player	player;
+	t_ray		ray;
 	mlx_image_t	*image;
 
 	get_player_coordinates(map, &player);
@@ -152,7 +134,8 @@ void	print_map(t_map map)
 	game.mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
 	if (!game.mlx)
 		return ;
-	image = mlx_new_image(game.mlx, IMG_SIZE, IMG_SIZE);
+	raycasting(game, &ray);
+	image = mlx_new_image(game.mlx, WIDTH, HEIGHT);
 	if (!image)
 	{
 		mlx_close_window(game.mlx);
@@ -164,6 +147,7 @@ void	print_map(t_map map)
 		mlx_close_window(game.mlx);
 		return ;
 	}
+	print_view(&game, ray);
 	ft_create_image(&game);
 	mlx_loop_hook(game.mlx, ft_hook, &game);
 	mlx_loop(game.mlx);
