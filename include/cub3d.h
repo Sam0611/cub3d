@@ -22,6 +22,7 @@
 # include "ft_string.h"
 
 # define MAP_SIZE 210
+# define WALL_SIZE 60
 # define WIDTH 1500
 # define HEIGHT 1000
 
@@ -51,6 +52,23 @@ typedef struct s_player {
 	double		planeY;
 	int			dir;
 }	t_player;
+
+typedef struct s_wall
+{
+	char			*north;
+	char			*south;
+	char			*west;
+	char			*east;
+	int				*floor;
+	int				*ceiling;
+	unsigned long	hex_floor;
+	unsigned long	hex_ceiling;
+	int				index;
+	double			step;
+	double			pos;
+	int				x;
+	int				y;
+}	t_wall;
 
 typedef struct s_game {
 	mlx_t		*mlx;
@@ -83,8 +101,8 @@ void			print_map(t_map map);
 void 			ft_hook(void *param);
 void			ft_create_image(t_game *game);
 void			set_player_direction(t_player *player);
-void			raycasting(t_game game, t_ray *ray);
+void			raycasting(t_game game, t_ray *ray, t_wall *wall);
 unsigned int	get_color(int color_code);
-void			print_view(t_game *game, t_ray ray);
+void			print_view(t_game *game, t_ray ray, t_wall wall);
 
 #endif

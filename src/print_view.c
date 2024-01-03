@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void	print_view(t_game *game, t_ray ray)
+void	print_view(t_game *game, t_ray ray, t_wall wall)
 {
 	unsigned int	x;
 	unsigned int	y;
@@ -24,12 +24,10 @@ void	print_view(t_game *game, t_ray ray)
 		y = 0;
 		while (y < game->image->height)
 		{
-			if (y <= game->image->height / 3)
+			if (y <= game->image->height / 2)
 				mlx_put_pixel(game->image, x, y, get_color(BLUE));
-			else if (y >= game->image->height / 3 * 2)
-				mlx_put_pixel(game->image, x, y, get_color(GREEN));
 			else
-				mlx_put_pixel(game->image, x, y, get_color(YELLOW));
+				mlx_put_pixel(game->image, x, y, get_color(GREEN));
 			y++;
 		}
 		x++;
