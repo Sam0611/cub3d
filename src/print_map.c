@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 // perso rond au lieu de carré
-// raycasting
-// 3D
+// minimap rayon
+// rotation du perso
 
 #include "cub3d.h"
 
@@ -125,17 +125,18 @@ void	print_map(t_map map)
 	t_game		game;
 	t_player	player;
 	t_ray		ray;
-	t_ray		wall;
+	t_wall		wall;
 	mlx_image_t	*image;
 
 	get_player_coordinates(map, &player);
 	set_player_direction(&player);
 	game.player = player;
+	game.ray = &ray;
+	game.wall = &wall;
 	game.map = &map;
 	game.mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
 	if (!game.mlx)
 		return ;
-	raycasting(game, &ray, *wall);
 	image = mlx_new_image(game.mlx, WIDTH, HEIGHT);
 	if (!image)
 	{
@@ -148,7 +149,6 @@ void	print_map(t_map map)
 		mlx_close_window(game.mlx);
 		return ;
 	}
-	print_view(&game, ray, wall);
 	ft_create_image(&game);
 	mlx_loop_hook(game.mlx, ft_hook, &game);
 	mlx_loop(game.mlx);

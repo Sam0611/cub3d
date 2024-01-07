@@ -88,6 +88,7 @@ static void	get_line_height(t_ray *ray, t_player player)
 	ray->draw_end = ray->line_height / 2 + HEIGHT / 2;
 	if (ray->draw_end >= HEIGHT)
 		ray->draw_end = HEIGHT - 1;
+
 	if (ray->side == 0)
 		ray->wallX = player.y + ray->walldist * ray->dirY;
 	else
@@ -95,38 +96,18 @@ static void	get_line_height(t_ray *ray, t_player player)
 	ray->wallX -= floor(ray->wallX);
 }
 
-void	update_texture_pixels(t_wall *wall, t_ray *ray)
-{
-	int			j;
-
-	wall->x = (int)(ray->wallX * WALL_SIZE);
-	if ((ray->side == 0 && ray->dirX < 0)
-		|| (ray->side == 1 && ray->dirY > 0))
-		wall->x = WALL_SIZE - wall->x - 1;
-	wall->step = 1.0 * WALL_SIZE / ray->line_height;
-	wall->pos = (ray->draw_start - HEIGHT / 2
-			+ ray->line_height / 2) * wall->step;
-	j = ray->draw_start;
-	while (j < ray->draw_end)
-	{
-		wall->y = (int)wall->pos & (WALL_SIZE - 1);
-		wall->pos += wall->step;
-		j++;
-	}
-}
-
-void	raycasting(t_game game, t_ray *ray, t_wall *wall)
+void	raycasting(t_game *game)
 {
 	int	i;
 
 	i = 0;
 	while (i < WIDTH)
 	{
-		init_raycasting_info(i, ray, game.player);
-		set_dda_values(ray, game.player);
-		apply_dda(game.map->content, ray);
-		get_line_height(ray, game.player);
-		update_texture_pixels(wall, ray);
+		init_raycasting_info(i, game->ray, game->player);
+		set_dda_values(game->ray, game->player);
+		apply_dda(game->map->content, game->ray);
+		get_line_height(game->ray, game->player);
+		print_vertical_line(i, game, game->ray, game->wall);
 		i++;
 	}
 }

@@ -70,13 +70,6 @@ typedef struct s_wall
 	int				y;
 }	t_wall;
 
-typedef struct s_game {
-	mlx_t		*mlx;
-	mlx_image_t	*image;
-	t_map		*map;
-	t_player	player;
-}	t_game;
-
 typedef struct s_ray {
 	double	cameraX;
 	double	dirX;
@@ -97,12 +90,21 @@ typedef struct s_ray {
 	int		draw_end;
 }	t_ray;
 
+typedef struct s_game {
+	mlx_t		*mlx;
+	mlx_image_t	*image;
+	t_map		*map;
+	t_player	player;
+	t_ray		*ray;
+	t_wall		*wall;
+}	t_game;
+
 void			print_map(t_map map);
 void 			ft_hook(void *param);
 void			ft_create_image(t_game *game);
 void			set_player_direction(t_player *player);
-void			raycasting(t_game game, t_ray *ray, t_wall *wall);
+void			raycasting(t_game *game);
 unsigned int	get_color(int color_code);
-void			print_view(t_game *game, t_ray ray, t_wall wall);
+void			print_vertical_line(int x, t_game *game, t_ray *ray, t_wall *wall);
 
 #endif

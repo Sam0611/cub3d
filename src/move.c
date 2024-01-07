@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-#define SPEED 0.5
+#define SPEED 0.2
 
 void	ft_hook(void *param)
 {
@@ -37,7 +37,23 @@ void	ft_hook(void *param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_D)
 		&& game->map->content[y][x + 1] != '1')
 		game->player.x += SPEED;
-	// if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
-	// if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+	raycasting(game);
+	double rotSpeed = 0.1;
+	double oldDirX = game->ray->dirX;
+	double oldPlaneX = game->player.planeX;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+	{
+      game->ray->dirX = game->ray->dirX * cos(rotSpeed) - game->ray->dirY * sin(rotSpeed);
+      game->ray->dirY = oldDirX * sin(rotSpeed) + game->ray->dirY * cos(rotSpeed);
+      game->player.planeX = game->player.planeX * cos(rotSpeed) - game->player.planeY * sin(rotSpeed);
+      game->player.planeY = oldPlaneX * sin(rotSpeed) + game->player.planeY * cos(rotSpeed);
+    }
+	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+	{
+      game->ray->dirX = game->ray->dirX * cos(-rotSpeed) - game->ray->dirY * sin(-rotSpeed);
+      game->ray->dirY = oldDirX * sin(-rotSpeed) + game->ray->dirY * cos(-rotSpeed);
+      game->player.planeX = game->player.planeX * cos(-rotSpeed) - game->player.planeY * sin(-rotSpeed);
+      game->player.planeY = oldPlaneX * sin(-rotSpeed) + game->player.planeY * cos(-rotSpeed);
+    }
 	ft_create_image(game);
 }

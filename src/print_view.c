@@ -12,25 +12,25 @@
 
 #include "cub3d.h"
 
-void	print_view(t_game *game, t_ray ray, t_wall wall)
+void	print_vertical_line(int x, t_game *game, t_ray *ray, t_wall *wall)
 {
-	unsigned int	x;
-	unsigned int	y;
+	int				y;
+	unsigned int	wall_color;
 
-	(void)ray;
-	x = 0;
-	while (x < game->image->width)
+	(void)wall;
+	wall_color = get_color(YELLOW);
+	if (ray->side != 1)
+		wall_color /= 1.5;
+	y = 0;
+	while (y < (int)game->image->height)
 	{
-		y = 0;
-		while (y < game->image->height)
-		{
-			if (y <= game->image->height / 2)
-				mlx_put_pixel(game->image, x, y, get_color(BLUE));
-			else
-				mlx_put_pixel(game->image, x, y, get_color(GREEN));
-			y++;
-		}
-		x++;
+		if (y < ray->draw_start)
+			mlx_put_pixel(game->image, x, y, get_color(BLUE));
+		else if (y > ray->draw_end)
+			mlx_put_pixel(game->image, x, y, get_color(GREEN));
+		else
+			mlx_put_pixel(game->image, x, y, wall_color);
+		y++;
 	}
 	return ;
 }
