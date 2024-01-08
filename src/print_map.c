@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// perso rond au lieu de carré
-// minimap rayon
-// rotation du perso
+//code propre
+//textures
+//leaks ?
 
 #include "cub3d.h"
 
@@ -130,6 +130,8 @@ void	print_map(t_map map)
 
 	get_player_coordinates(map, &player);
 	set_player_direction(&player);
+	ray.dirX = 0;
+	ray.dirY = 0;
 	game.player = player;
 	game.ray = &ray;
 	game.wall = &wall;
