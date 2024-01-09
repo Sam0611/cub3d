@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 //code propre
+//initialiser valeurs
 //textures
 //leaks ?
 
@@ -123,20 +124,17 @@ void	get_player_coordinates(t_map map, t_player *player)
 
 void	print_map(t_map map)
 {
-	t_game		game;
-	t_player	player;
-	t_ray		ray;
-	t_wall		wall;
-	mlx_image_t	*image;
-	xpm_t		*xpm;
+	t_game			game;
+	t_player		player;
+	t_ray			ray;
+	t_wall			wall;
+	mlx_image_t		*image;
+	mlx_texture_t	*tex;
 
-	xpm = mlx_load_xpm42("sonic.xpm42");
-	if (!xpm)
-		printf("xpm failed\n");
-	else
-		printf("xpm ok\n");
-	// mlx_delete_texture(xpm->texture);
-	// mlx_delete_xpm42(xpm);
+	tex = mlx_load_png("img/sonic.png");
+	if (!tex)
+		return ;
+	// mlx_delete_texture(tex);
 	get_player_coordinates(map, &player);
 	set_player_direction(&player);
 	ray.dirX = 0;
@@ -148,7 +146,8 @@ void	print_map(t_map map)
 	game.mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
 	if (!game.mlx)
 		return ;
-	// game.img = mlx_texture_to_image(game.mlx, &xpm->texture); // texture sonic
+	game.img = mlx_texture_to_image(game.mlx, tex); // texture sonic
+	mlx_resize_image(game.img, 200, 100);
 	image = mlx_new_image(game.mlx, WIDTH, HEIGHT);
 	if (!image)
 	{
@@ -164,5 +163,7 @@ void	print_map(t_map map)
 	ft_create_image(&game);
 	mlx_loop_hook(game.mlx, ft_hook, &game);
 	mlx_loop(game.mlx);
+	mlx_delete_image(game.mlx, game.image);
+	// mlx_delete_image(game.mlx, game.img);
 	mlx_terminate(game.mlx);
 }
