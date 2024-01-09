@@ -99,6 +99,7 @@ void	ft_create_image(t_game *game)
 		i++;
 		pos[1] += BLOCK_SIZE;
 	}
+	// mlx_image_to_window(game->mlx, game->img, 0, 0);
 }
 
 void	get_player_coordinates(t_map map, t_player *player)
@@ -127,7 +128,15 @@ void	print_map(t_map map)
 	t_ray		ray;
 	t_wall		wall;
 	mlx_image_t	*image;
+	xpm_t		*xpm;
 
+	xpm = mlx_load_xpm42("sonic.xpm42");
+	if (!xpm)
+		printf("xpm failed\n");
+	else
+		printf("xpm ok\n");
+	// mlx_delete_texture(xpm->texture);
+	// mlx_delete_xpm42(xpm);
 	get_player_coordinates(map, &player);
 	set_player_direction(&player);
 	ray.dirX = 0;
@@ -139,6 +148,7 @@ void	print_map(t_map map)
 	game.mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
 	if (!game.mlx)
 		return ;
+	// game.img = mlx_texture_to_image(game.mlx, &xpm->texture); // texture sonic
 	image = mlx_new_image(game.mlx, WIDTH, HEIGHT);
 	if (!image)
 	{
