@@ -90,6 +90,7 @@ static int	check_file(char *map_name)
 int	main(int ac, char **av)
 {
 	t_map		map;
+	t_game		game;
 
 	if (ac != 2)
 		return (0);
@@ -101,8 +102,9 @@ int	main(int ac, char **av)
 	map.row = 0;
 	while (map.content[map.row])
 		map.row++;
+	game.map = &map;
 
-	print_map(map);
+	print_map(game);
 
 	return (0);
 }

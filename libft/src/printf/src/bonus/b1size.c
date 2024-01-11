@@ -6,7 +6,7 @@
 /*   By: smalloir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 17:00:53 by smalloir          #+#    #+#             */
-/*   Updated: 2022/11/19 13:42:59 by smalloir         ###   ########.fr       */
+/*   Updated: 2024/01/11 19:21:20 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ static void	b1_wp_c(char *fmt, va_list ap, int *count, int *tab)
 	va_copy(vl, ap);
 	nb = va_arg(vl, int);
 	if (fmt[tab[0]] == '-')
-			*count += ft_putchar(nb);
+		*count += ft_putchar(nb);
 	while (tab[1] > tab[3])
 	{
 		*count += write(1, " ", 1);
 		tab[1]--;
 	}
 	if (fmt[tab[0]] != '-')
-			*count += ft_putchar(nb);
+		*count += ft_putchar(nb);
 	va_end(vl);
 }
 

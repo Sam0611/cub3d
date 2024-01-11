@@ -12,12 +12,11 @@
 
 #include "cub3d.h"
 
-void	print_vertical_line(int x, t_game *game, t_ray *ray, t_wall *wall)
+void	print_vertical_line(int x, t_game *game, t_ray *ray)
 {
 	int				y;
 	unsigned int	wall_color;
 
-	(void)wall;
 	wall_color = get_color(YELLOW);
 	if (ray->side != 1)
 		wall_color /= 1.5;
