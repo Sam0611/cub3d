@@ -53,22 +53,17 @@ typedef struct s_player {
 	int			dir;
 }	t_player;
 
-typedef struct s_wall
+typedef struct s_texture
 {
-	char			*north;
-	char			*south;
-	char			*west;
-	char			*east;
-	int				*floor;
-	int				*ceiling;
-	unsigned long	hex_floor;
-	unsigned long	hex_ceiling;
-	int				index;
-	double			step;
-	double			pos;
 	int				x;
 	int				y;
-}	t_wall;
+	int				height;
+	int				width;
+	double			pos;
+	double			step;
+	mlx_texture_t	*data;
+	mlx_image_t		*img;
+}	t_texture;
 
 typedef struct s_ray {
 	double	camera_x;
@@ -93,11 +88,10 @@ typedef struct s_ray {
 typedef struct s_game {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
-	mlx_image_t	*img; // texture example
 	t_map		*map;
 	t_player	*player;
 	t_ray		*ray;
-	t_wall		*wall;
+	t_texture	*texture;
 }	t_game;
 
 void			print_map(t_game game);

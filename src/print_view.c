@@ -12,14 +12,32 @@
 
 #include "cub3d.h"
 
+// color = txt->texture->pixels[(txt->x_texture + (((int)params.acc) * txt->texture->width)) * txt->texture->bytes_per_pixel] << 24;
+// color |= txt->texture->pixels[(txt->x_texture + (((int)params.acc) * txt->texture->width)) * txt->texture->bytes_per_pixel + 1] << 16;
+// color |= txt->texture->pixels[(txt->x_texture + (((int)params.acc) * txt->texture->width)) * txt->texture->bytes_per_pixel + 2] << 8;
+// color |= txt->texture->pixels[(txt->x_texture + (((int)params.acc) * txt->texture->width)) * txt->texture->bytes_per_pixel + 3];
+
+void	fct(t_game *game, t_texture *tex, int x, int y)
+{
+	int	color;
+
+	game->texture->y = (int)game->texture->pos & (tex->height - 1);
+	game->texture->pos += tex->step;
+	color = tex->data->pixels[(tex->x + game->texture->y * tex->width) * tex->data->bytes_per_pixel] << 24;
+	color |= tex->data->pixels[(tex->x + game->texture->y * tex->width) * tex->data->bytes_per_pixel + 1] << 16;
+	color |= tex->data->pixels[(tex->x + game->texture->y * tex->width) * tex->data->bytes_per_pixel + 2] << 8;
+	color |= tex->data->pixels[(tex->x + game->texture->y * tex->width) * tex->data->bytes_per_pixel + 3];
+	mlx_put_pixel(game->image, x, y, color);
+}
+
 void	print_vertical_line(int x, t_game *game, t_ray *ray)
 {
 	int				y;
-	unsigned int	wall_color;
+	// unsigned int	wall_color;
 
-	wall_color = get_color(YELLOW);
-	if (ray->side != 1)
-		wall_color /= 1.5;
+	// wall_color = get_color(YELLOW);
+	// if (ray->side != 1)
+	// 	wall_color /= 1.5;
 	y = 0;
 	while (y < (int)game->image->height)
 	{
@@ -28,7 +46,8 @@ void	print_vertical_line(int x, t_game *game, t_ray *ray)
 		else if (y > ray->draw_end)
 			mlx_put_pixel(game->image, x, y, get_color(GREEN));
 		else
-			mlx_put_pixel(game->image, x, y, wall_color);
+			fct(game, game->texture, x, y);
+			// mlx_put_pixel(game->image, x, y, game->texture->data->pixels);
 		y++;
 	}
 	return ;

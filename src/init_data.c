@@ -56,23 +56,36 @@ t_ray	*init_ray(void)
 	return (ray);
 }
 
+t_texture	*init_texture(void)
+{
+	t_texture	*tex;
+
+	tex = malloc(sizeof(t_texture));
+	tex->data = mlx_load_png("img/sonic.png");
+	if (!tex || !tex->data)
+		return (NULL);
+	tex->x = 0;
+	tex->y = 0;
+	tex->width = 64;
+	tex->height = 64;
+	tex->pos = 0;
+	tex->step = 0;
+	return (tex);
+}
+
 int	init_data(t_game *game)
 {
 	mlx_image_t		*image;
-	mlx_texture_t	*tex;
 
 	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
 	if (!game->mlx)
 		return (1);
 	image = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-	tex = mlx_load_png("img/sonic.png");
-	if (!image || !tex || mlx_image_to_window(game->mlx, image, 0, 0) == -1)
+	if (!image || mlx_image_to_window(game->mlx, image, 0, 0) == -1)
 	{
 		mlx_close_window(game->mlx);
 		return (1);
 	}
 	game->image = image;
-	game->img = mlx_texture_to_image(game->mlx, tex);
-	mlx_delete_texture(tex);
 	return (0);
 }

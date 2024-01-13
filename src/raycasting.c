@@ -13,6 +13,7 @@
 #include "cub3d.h"
 
 void	print_vertical_line(int x, t_game *game, t_ray *ray);
+void    update_texture_infos(t_game *game, t_ray *ray);
 
 static void	init_raycasting_info(int i, t_ray *ray, t_player *player)
 {
@@ -107,6 +108,7 @@ void	raycasting(t_game *game)
 		set_dda_values(game->ray, game->player);
 		apply_dda(game->map->content, game->ray);
 		get_line_height(game->ray, game->player);
+		update_texture_infos(game, game->ray);
 		print_vertical_line(i, game, game->ray);
 		i++;
 	}
