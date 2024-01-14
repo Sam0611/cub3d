@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		=	main.c print_map.c move.c
+SRCS		=	main.c print_map.c game_run.c player_infos.c raycasting.c color.c print_view.c init_data.c print_minimap.c textures.c
 SRCS_BONUS	=	main_bonus.c
 OBJS		=	${addprefix ${BUILD_DIR}/,${SRCS:c=o}}
 OBJS_BONUS	=	${addprefix ${BUILD_DIR}/,${SRCS_BONUS:c=o}}
@@ -47,7 +47,7 @@ bonus:	${OBJS_BONUS}
 
 clean:
 	@make --no-print-directory fclean -C libft
-	@rm -rf ./MLX42/build
+	# @rm -rf ./MLX42/build
 	@${RM} ${OBJS} ${OBJS_BONUS}
 
 fclean:	clean

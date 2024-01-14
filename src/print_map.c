@@ -6,105 +6,44 @@
 /*   By: smalloir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 14:07:41 by smalloir          #+#    #+#             */
-/*   Updated: 2023/12/10 14:07:43 by smalloir         ###   ########.fr       */
+/*   Updated: 2024/01/11 20:15:33 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+//textures
+// valgrind + norminette
+
 #include "cub3d.h"
 
-#define WHITE 1
-#define BLACK 2
-#define RED 3
-#define BLOCK_SIZE 30
+t_player	*init_player(void);
+t_ray		*init_ray(void);
+t_texture	*init_texture(void);
+int			init_data(t_game *game);
+void		get_player_coordinates(t_map *map, t_player *player);
+void		set_player_direction(t_player *player);
+void		game_run(void *param);
 
-// default color = black
-unsigned int    get_color(int color_code)
+// print_game_screen
+void	print_map(t_game game)
 {
-    unsigned int    color;
-
-    color = 0 << 24 | 0 << 16 | 0 << 8 | 255;
-    if (color_code == WHITE)
-        color = 255 << 24 | 255 << 16 | 255 << 8 | 255;
-    if (color_code == RED)
-        color = 255 << 24 | 0 << 16 | 0 << 8 | 255;
-    return (color);
-}
-
-// x is horizontal coordinates, y is vertical coordinates
-void    ft_put_pixel(mlx_image_t *image, unsigned int x, unsigned int y, unsigned int color)
-{
-    unsigned int initial_x;
-    unsigned int initial_y;
-
-    initial_x = x;
-    initial_y = y;
-    while (x < BLOCK_SIZE + initial_x && x < image->width)
-    {
-        y = initial_y;
-        while (y < BLOCK_SIZE + initial_y && y < image->height)
-        {
-            mlx_put_pixel(image, x, y, color);
-            y++;
-        }
-        x++;
-    }
-}
-
-void ft_create_image(t_game *game)
-{
-	unsigned int	i;
-	unsigned int	pos[2];
-
-	i = 0;
-    pos[0] = 0;
-    pos[1] = 0;
-    while (game->map->content[i])
-    {
-        if (game->map->content[i] == '0')
-            ft_put_pixel(game->image, pos[0], pos[1], get_color(WHITE));
-        else if (game->map->content[i] == '1')
-            ft_put_pixel(game->image, pos[0], pos[1], get_color(BLACK));
-        else
-            ft_put_pixel(game->image, pos[0], pos[1], get_color(RED));
-        pos[0] += BLOCK_SIZE;
-        i++;
-        if (game->map->content[i] == '\n')
-        {
-            pos[1] += BLOCK_SIZE;
-            pos[0] = 0;
-            i++;
-        }
-    }
-
-    // if (i == IMG_SIZE / 2 || j == IMG_SIZE / 2)
-    // 	mlx_put_pixel(game->image, i, j, get_color(RED));
-    // else
-    // 	mlx_put_pixel(game->image, i, j, get_color(WHITE));
-}
-
-void    print_map(t_map map)
-{
-	t_game		game;
-	mlx_image_t	*image;
-
-    game.map = &map;
-    game.mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
-	if (!game.mlx)
+	game.player = init_player();
+	game.ray = init_ray();
+	game.texture = init_texture();
+	if (!game.player || !game.ray || !game.texture || init_data(&game))
 		return ;
-	image = mlx_new_image(game.mlx, IMG_SIZE, IMG_SIZE);
-	if (!image)
-	{
-		mlx_close_window(game.mlx);
-		return ;
-	}
-	game.image = image;
-	if (mlx_image_to_window(game.mlx, game.image, 0, 0) == -1)
-	{
-		mlx_close_window(game.mlx);
-		return ;
-	}
-	ft_create_image(&game);
-	mlx_loop_hook(game.mlx, ft_hook, &game);
+	get_player_coordinates(game.map, game.player);
+	set_player_direction(game.player);
+	// game.texture->img = mlx_texture_to_image(game.mlx, game.texture->data);
+	// mlx_resize_image(game.texture->img, 64, 64);
+	// mlx_image_to_window(game.mlx, game.texture->img, 0, 0);
+	mlx_loop_hook(game.mlx, game_run, &game);
 	mlx_loop(game.mlx);
+	mlx_delete_image(game.mlx, game.image);
+	mlx_delete_texture(game.texture->data);
+	// mlx_delete_image(game.mlx, game.texture->img);
+	// mlx_close_window(game.mlx);
 	mlx_terminate(game.mlx);
+	free(game.player);
+	free(game.ray);
+	free(game.texture);
 }
