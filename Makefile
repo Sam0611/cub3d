@@ -10,7 +10,26 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		=	main.c print_map.c game_run.c player_infos.c raycasting.c color.c print_view.c init_data.c print_minimap.c textures.c
+SRCS		=\
+			main.c\
+			print_map.c\
+			print_minimap.c\
+			player_infos.c\
+			textures.c\
+			game_run.c\
+			raycasting.c\
+			color.c\
+			print_view.c\
+			parsing.c\
+			create_map.c\
+			get_texture.c\
+			init.c\
+			init_data.c\
+			utils.c\
+			check_outline.c\
+			read_file.c\
+			error.c
+
 SRCS_BONUS	=	main_bonus.c
 OBJS		=	${addprefix ${BUILD_DIR}/,${SRCS:c=o}}
 OBJS_BONUS	=	${addprefix ${BUILD_DIR}/,${SRCS_BONUS:c=o}}
@@ -26,7 +45,7 @@ CFLAGS		=	-Wall -Werror -Wextra -Wunreachable-code -g3 -Ilibft/include -Iinclude
 LIBFT_FLAGS	=	-Llibft/bin -lft
 MLX_FLAGS	=	./MLX42/build/libmlx42.a -ldl -lglfw -pthread -lm
 
-MODULE			=	printf gnl
+MODULE			=	printf gnl write
 MODULE_BONUS	=	printf gnl stdlib
 
 ${BUILD_DIR}/%.o : %.c
