@@ -12,14 +12,9 @@
 
 #include "cub3d.h"
 
-// color = txt->texture->pixels[(txt->x_texture + (((int)params.acc) * txt->texture->width)) * txt->texture->bytes_per_pixel] << 24;
-// color |= txt->texture->pixels[(txt->x_texture + (((int)params.acc) * txt->texture->width)) * txt->texture->bytes_per_pixel + 1] << 16;
-// color |= txt->texture->pixels[(txt->x_texture + (((int)params.acc) * txt->texture->width)) * txt->texture->bytes_per_pixel + 2] << 8;
-// color |= txt->texture->pixels[(txt->x_texture + (((int)params.acc) * txt->texture->width)) * txt->texture->bytes_per_pixel + 3];
-
 void	fct(t_game *game, t_texture *tex, int x, int y)
 {
-	int	color;
+	unsigned int	color;
 
 	game->texture->y = (int)game->texture->pos & (tex->height - 1);
 	game->texture->pos += tex->step;
@@ -47,7 +42,6 @@ void	print_vertical_line(int x, t_game *game, t_ray *ray)
 			mlx_put_pixel(game->image, x, y, get_color(GREEN));
 		else
 			fct(game, game->texture, x, y);
-			// mlx_put_pixel(game->image, x, y, game->texture->data->pixels);
 		y++;
 	}
 	return ;

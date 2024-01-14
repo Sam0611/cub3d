@@ -6,14 +6,14 @@
 /*   By: smalloir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:36:47 by smalloir          #+#    #+#             */
-/*   Updated: 2023/12/29 15:36:49 by smalloir         ###   ########.fr       */
+/*   Updated: 2024/01/14 17:33:38 by smalloir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 void	print_vertical_line(int x, t_game *game, t_ray *ray);
-void    update_texture_infos(t_game *game, t_ray *ray);
+void	update_texture_infos(t_game *game, t_ray *ray);
 
 static void	init_raycasting_info(int i, t_ray *ray, t_player *player)
 {

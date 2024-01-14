@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 //textures
-// valgrind a l'école + header pour init_data.c et textures.c + norminette
+// valgrind + norminette
 
 #include "cub3d.h"
 
