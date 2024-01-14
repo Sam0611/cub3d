@@ -41,7 +41,7 @@ int	check_outline(t_map *map)
 	y = 1;
 	while (y < (map->row - 1))
 	{
-		while (is_whitespace(map_content[y][x]))
+		while (is_whitespace(map->content[y][x]))
 			x++;
 		if (map->content[y][x] != '1')
 			return (0);

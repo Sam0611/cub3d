@@ -12,7 +12,6 @@
 
 #include "cub3d.h"
 
-<<<<<<< HEAD
 void	fct(t_game *game, t_texture *tex, int x, int y)
 {
 	unsigned int	color;
@@ -44,29 +43,6 @@ void	print_vertical_line(int x, t_game *game, t_ray *ray)
 		else
 			fct(game, game->texture, x, y);
 		y++;
-=======
-void	print_view(t_game *game, t_ray ray)
-{
-	unsigned int	x;
-	unsigned int	y;
-
-	(void)ray;
-	x = 0;
-	while (x < game->image->width)
-	{
-		y = 0;
-		while (y < game->image->height)
-		{
-			if (y <= game->image->height / 3)
-				mlx_put_pixel(game->image, x, y, get_color(BLUE));
-			else if (y >= game->image->height / 3 * 2)
-				mlx_put_pixel(game->image, x, y, get_color(GREEN));
-			else
-				mlx_put_pixel(game->image, x, y, get_color(YELLOW));
-			y++;
-		}
-		x++;
->>>>>>> origin/Parsing
 	}
 	return ;
 }
