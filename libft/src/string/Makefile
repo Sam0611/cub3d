@@ -34,6 +34,7 @@ SRC			=	ft_bzero.c			\
 				ft_strnstr.c		\
 				ft_strrchr.c		\
 				ft_strsearch.c		\
+				ft_strsearch_chars.c\
 				ft_strnsearch.c		\
 				ft_strtrim.c		\
 				ft_substr.c			\

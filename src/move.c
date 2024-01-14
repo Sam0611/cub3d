@@ -6,27 +6,38 @@
 /*   By: smalloir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 14:36:19 by smalloir          #+#    #+#             */
-/*   Updated: 2023/12/10 14:36:20 by smalloir         ###   ########.fr       */
+/*   Updated: 2023/12/27 03:37:49 by smalloir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-#define PACE 5
+#define SPEED 0.5
 
-void ft_hook(void *param)
+void	ft_hook(void *param)
 {
 	t_game	*game;
-	
+	int		x;
+	int		y;
+
 	game = param;
+	x = game->player.x;
+	y = game->player.y;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_UP)) // MLX_KEY_W
-		game->image->instances[0].y += PACE;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN)) // MLX_KEY_S
-		game->image->instances[0].y -= PACE;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT)) // MLX_KEY_A
-		game->image->instances[0].x += PACE;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT)) // MLX_KEY_D
-		game->image->instances[0].x -= PACE;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_W)
+		&& game->map->content[y - 1][x] != '1')
+		game->player.y -= SPEED;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_S)
+		&& game->map->content[y + 1][x] != '1')
+		game->player.y += SPEED;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_A)
+		&& game->map->content[y][x - 1] != '1')
+		game->player.x -= SPEED;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_D)
+		&& game->map->content[y][x + 1] != '1')
+		game->player.x += SPEED;
+	// if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+	// if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+	ft_create_image(game);
 }

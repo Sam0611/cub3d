@@ -10,7 +10,23 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		=	main.c print_map.c move.c
+SRCS		=\
+			main.c\
+			print_map.c\
+			move.c\
+			set_player_direction.c\
+			raycasting.c\
+			color.c\
+			print_view.c\
+			parsing.c\
+			create_map.c\
+			get_texture.c\
+			init.c\
+			utils.c\
+			check_outline.c\
+			read_file.c\
+			error.c
+
 SRCS_BONUS	=	main_bonus.c
 OBJS		=	${addprefix ${BUILD_DIR}/,${SRCS:c=o}}
 OBJS_BONUS	=	${addprefix ${BUILD_DIR}/,${SRCS_BONUS:c=o}}
@@ -26,7 +42,7 @@ CFLAGS		=	-Wall -Werror -Wextra -Wunreachable-code -g3 -Ilibft/include -Iinclude
 LIBFT_FLAGS	=	-Llibft/bin -lft
 MLX_FLAGS	=	./MLX42/build/libmlx42.a -ldl -lglfw -pthread -lm
 
-MODULE			=	printf gnl
+MODULE			=	printf gnl write
 MODULE_BONUS	=	printf gnl stdlib
 
 ${BUILD_DIR}/%.o : %.c
@@ -47,7 +63,7 @@ bonus:	${OBJS_BONUS}
 
 clean:
 	@make --no-print-directory fclean -C libft
-	@rm -rf ./MLX42/build
+	# @rm -rf ./MLX42/build
 	@${RM} ${OBJS} ${OBJS_BONUS}
 
 fclean:	clean

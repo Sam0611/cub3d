@@ -3,68 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smalloir <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:31:21 by smalloir          #+#    #+#             */
-/*   Updated: 2023/12/08 16:31:23 by smalloir         ###   ########.fr       */
+/*   Updated: 2024/01/14 06:52:46 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <fcntl.h>
 
-static char	*get_map(char *map_name)
-{
-	int		fd;
-	char	*map;
-
-	fd = open(map_name, O_RDWR, S_IRWXU);
-	if (fd < 0)
-	{
-		perror(map_name);
-		return (NULL);
-	}
-	map = get_all_lines(fd);
-	close(fd);
-	return (map);
-}
-
-static int	check_map_name(char *map_name)
+static int	check_file(char *map_name)
 {
 	int	len;
+	int	fd;
 
 	len = ft_strlen(map_name) - 4;
 	if (len <= 0 || ft_strncmp(map_name + len, ".cub", 5))
 	{
-		printf("Error\nFile not valid\n"); // afficher dans sortie 2
-		return (1);
+		print_error("texture file is not .cub\n");
+		return (0);
 	}
-	return (0);
+	fd = open(map_name, O_DIRECTORY);
+	if (fd != -1)
+	{
+		perror(map_name);
+		exit(0);
+	}
+	fd = open(map_name, O_RDWR, S_IRWXU);
+	if (fd < 0)
+	{
+		perror(map_name);
+		exit(0);
+	}
+	close(fd);
+	return (1);
 }
 
 int	main(int ac, char **av)
 {
-	t_map		map;
-	int			i;
+	t_map	map;
+	t_game	game;
 
 	if (ac != 2)
 		return (0);
-	if (check_map_name(av[1]))
-		return (0);
-	map.content = get_map(av[1]);
-	if (!map.content)
+	if (!check_file(av[1]))
 		return (1);
-	i = ft_strlen(map.content) - 1;
-	map.col = ft_strsearch(map.content, '\n');
-	map.row = ft_countchar('\n', map.content);
-	if (map.content[i] != '\n')
+	get_map(av[1], &map, &game);
+	if (!map.content)
+		return (2);
+	map.row = 0;
+	while (map.content[map.row])
 		map.row++;
-
-	print_map(map);
-	// if (!parse_map(map))
-	// 	print_map(map);
-	// else
-	// 	free(map.content);
+	print_map(map, game);
 
 	return (0);
 }
