@@ -82,7 +82,7 @@ int	fill_void(t_map *map)
 	int	x;
 	int	y;
 
-	print_error("debug0");
+	print_error("debug fill_void");
 	y = 0;
 	while (map->content[y])
 	{
@@ -93,7 +93,7 @@ int	fill_void(t_map *map)
 		{
 			if (map->content[y][x] == ' ' && x < (int)ft_strlen(map->content[y]))
 			{
-				if ((y > 0 && map->content[y - 1][x] == '0') || (y < map->row && map->content[y + 1][x] == '0'))
+				if ((y > 0 && map->content[y - 1][x] == '0') || (y < map->row - 1 && map->content[y + 1][x] == '0'))
 					return (print_error("debug"));
 				else if (x > 0 && map->content[y][x - 1] == '0')
 					return (print_error("debug1"));

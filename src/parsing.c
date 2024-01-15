@@ -49,9 +49,9 @@ static int	check_texture_file(char *tex_path)
 	int	fd;
 
 	len = ft_strlen(tex_path) - 4;
-	if (len <= 0 || ft_strncmp(tex_path + len, ".xpm", 5))
+	if (len <= 0 || ft_strncmp(tex_path + len, ".png", 5))
 	{
-		print_error("texture file is not .xpm\n");
+		print_error("texture file is not .png\n");
 		return (0);
 	}
 	fd = open(tex_path, O_DIRECTORY);
@@ -93,11 +93,7 @@ int	check_textures(t_tex *tex)
 
 int	check_data(t_map *map, t_tex *tex)
 {
-	printf("Debug: floor = %d %d %d\n", tex->floor[0], tex->floor[1], tex->floor[2]);
-	int i = 0;
-	while (map->content[i])
-		printf("%s\n", map->content[i++]); //tmp debug
-
+	print_error("debug check_data");
 	if (!map->content)
 		return (print_error("no map"));
 	if (map->row < 3 || map->col < 3)
@@ -106,6 +102,10 @@ int	check_data(t_map *map, t_tex *tex)
 		return (print_error("missing color"));
 	if (!tex->east || !tex->west || !tex->north || !tex->south)
 		return (print_error("missing texture"));
+	printf("Debug: floor = %d %d %d\n", tex->floor[0], tex->floor[1], tex->floor[2]);
+	//int i = 0;
+	//while (map->content[i])
+	//	printf("%s\n", map->content[i++]); //tmp debug
 	return (1);
 }
 

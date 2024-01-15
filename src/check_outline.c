@@ -30,7 +30,7 @@ int	check_first_and_last_line(char **map_content, int y)
 	return (1);
 }
 
-#include <stdio.h>
+#include <stdio.h> //TMP
 int	check_outline(t_map *map)
 {
 	int	y;
@@ -41,6 +41,7 @@ int	check_outline(t_map *map)
 	y = 1;
 	while (y < (map->row - 1))
 	{
+		x = 0;
 		while (is_whitespace(map->content[y][x]))
 			x++;
 		if (map->content[y][x] != '1')
