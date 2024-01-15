@@ -46,7 +46,7 @@ static void	draw_map_background(mlx_image_t *image)
 		y = 0;
 		while (y < MAP_SIZE)
 		{
-			mlx_put_pixel(image, x, y, get_color(GREY));
+			mlx_put_pixel(image, x, y, get_color(BLACK));
 			y++;
 		}
 		x++;
