@@ -39,20 +39,6 @@ static int	check_file(char *map_name)
 	return (1);
 }
 
-void	freestr(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str[i]);
-	free(str);
-}
-
 int	main(int ac, char **av)
 {
 	t_map	map;
@@ -65,11 +51,8 @@ int	main(int ac, char **av)
 	get_map(av[1], &map, &game);
 	if (!map.content)
 		return (2);
-	map.row = 0;
-	while (map.content[map.row])
-		map.row++;
 	game.map = &map;
-	print_map(game);
-	freestr(map.content);
+	print_screen_game(game);
+	free_tab(map.content);
 	return (0);
 }

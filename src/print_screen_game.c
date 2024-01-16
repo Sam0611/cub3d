@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_map.c                                        :+:      :+:    :+:   */
+/*   print_screen_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smalloir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,6 +12,14 @@
 
 //textures
 // valgrind + norminette
+// get color -> minimap (enum)
+// map (sumabura.cub, anime.cub, hanzi.cub)
+// error msg
+// rassembler les structures textures
+// suppr .txt .xpm
+// makefile fclean
+// p_dir = player->dir
+// fichier ini.c et ini_data.c
 
 #include "cub3d.h"
 
@@ -23,8 +31,7 @@ void		get_player_coordinates(t_map *map, t_player *player);
 void		set_player_direction(t_player *player);
 void		game_run(void *param);
 
-// print_game_screen
-void	print_map(t_game game)
+void	print_screen_game(t_game game)
 {
 	game.player = init_player();
 	game.ray = init_ray();
@@ -33,15 +40,10 @@ void	print_map(t_game game)
 		return ;
 	get_player_coordinates(game.map, game.player);
 	set_player_direction(game.player);
-	// game.texture->img = mlx_texture_to_image(game.mlx, game.texture->data);
-	// mlx_resize_image(game.texture->img, 64, 64);
-	// mlx_image_to_window(game.mlx, game.texture->img, 0, 0);
 	mlx_loop_hook(game.mlx, game_run, &game);
 	mlx_loop(game.mlx);
 	mlx_delete_image(game.mlx, game.image);
 	mlx_delete_texture(game.texture->data);
-	// mlx_delete_image(game.mlx, game.texture->img);
-	// mlx_close_window(game.mlx);
 	mlx_terminate(game.mlx);
 	free(game.player);
 	free(game.ray);

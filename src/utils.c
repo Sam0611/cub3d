@@ -12,14 +12,6 @@
 
 #include "cub3d.h"
 
-int	ft_isdigit(int c) //Temporary
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	else
-		return (0);
-}
-
 int	ft_isprint(int c)
 {
 	if (c >= 33 && c <= 126)
@@ -39,13 +31,11 @@ void	free_tab(char **tab)
 	int	i;
 
 	i = 0;
-	while(tab[i])
-		i++;
-	i--;
-	while (i >= 0)
+	while (tab[i])
 	{
 		free(tab[i]);
-		i--;
+		i++;
 	}
+	free(tab[i]);
 	free(tab);
 }

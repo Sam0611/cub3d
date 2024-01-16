@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <fcntl.h>
 
 #include <stdio.h> //tmp
 int	check_map_character(t_map *map)
@@ -42,7 +41,7 @@ int	check_map_character(t_map *map)
 	}
 	return (1);
 }
-
+/*
 static int	check_texture_file(char *tex_path)
 {
 	int	len;
@@ -90,7 +89,7 @@ int	check_textures(t_tex *tex)
 	}
 	return (1);
 }
-
+*/
 int	check_data(t_map *map, t_tex *tex)
 {
 	print_error("debug check_data");
@@ -98,11 +97,11 @@ int	check_data(t_map *map, t_tex *tex)
 		return (print_error("no map"));
 	if (map->row < 3 || map->col < 3)
 		return (print_error("map is too small"));
-	if (!tex->floor || !tex->ceiling)
-		return (print_error("missing color"));
+	// if (!tex->floor || !tex->ceiling)
+	// 	return (print_error("missing color"));
 	if (!tex->east || !tex->west || !tex->north || !tex->south)
 		return (print_error("missing texture"));
-	printf("Debug: floor = %d %d %d\n", tex->floor[0], tex->floor[1], tex->floor[2]);
+	// printf("Debug: floor = %d %d %d\n", tex->floor[0], tex->floor[1], tex->floor[2]);
 	//int i = 0;
 	//while (map->content[i])
 	//	printf("%s\n", map->content[i++]); //tmp debug
@@ -115,8 +114,8 @@ int	parse_map(t_game *game, t_map *map)
 		return (0);
 	if (!check_outline(map))
 		return (print_error("map is not surounded by wall\n"));
-	if (!check_textures(&game->textures))
-		return (0);
+	// if (!check_textures(&game->textures))
+	// 	return (0);
 	if (!check_map_character(map))
 		return (0);
 	printf("debug: parse_map: OK\n");

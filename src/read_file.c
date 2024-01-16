@@ -29,7 +29,7 @@ int	get_file_content(t_map *map)
 	return (1);
 }
 
-int	is_param(t_map *map, t_game *game, int y, int x)
+static int	is_param(t_map *map, t_game *game, int y, int x)
 {
 	if (map->f_content[y][x + 1] && ft_isprint(map->f_content[y][x + 1]))
 	{
@@ -39,7 +39,7 @@ int	is_param(t_map *map, t_game *game, int y, int x)
 	else
 	{
 		if (!init_color(&game->textures, map->f_content[y], x))
-			return (print_error("invalid rgb colors"));
+			return (0);
 	}
 	return (1);
 }

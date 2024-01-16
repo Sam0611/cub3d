@@ -16,12 +16,12 @@ void	fct(t_game *game, t_texture *tex, int x, int y)
 {
 	unsigned int	color;
 
-	game->texture->y = (int)game->texture->pos & (tex->height - 1);
+	game->texture->y = (int)game->texture->pos & (TEX_SIZE - 1);
 	game->texture->pos += tex->step;
-	color = tex->data->pixels[(tex->x + game->texture->y * tex->width) * tex->data->bytes_per_pixel] << 24;
-	color |= tex->data->pixels[(tex->x + game->texture->y * tex->width) * tex->data->bytes_per_pixel + 1] << 16;
-	color |= tex->data->pixels[(tex->x + game->texture->y * tex->width) * tex->data->bytes_per_pixel + 2] << 8;
-	color |= tex->data->pixels[(tex->x + game->texture->y * tex->width) * tex->data->bytes_per_pixel + 3];
+	color = tex->data->pixels[(tex->x + game->texture->y * TEX_SIZE) * tex->data->bytes_per_pixel] << 24;
+	color |= tex->data->pixels[(tex->x + game->texture->y * TEX_SIZE) * tex->data->bytes_per_pixel + 1] << 16;
+	color |= tex->data->pixels[(tex->x + game->texture->y * TEX_SIZE) * tex->data->bytes_per_pixel + 2] << 8;
+	color |= tex->data->pixels[(tex->x + game->texture->y * TEX_SIZE) * tex->data->bytes_per_pixel + 3];
 	mlx_put_pixel(game->image, x, y, color);
 }
 
@@ -37,9 +37,9 @@ void	print_vertical_line(int x, t_game *game, t_ray *ray)
 	while (y < (int)game->image->height)
 	{
 		if (y < ray->draw_start)
-			mlx_put_pixel(game->image, x, y, get_color(BLUE));
+			mlx_put_pixel(game->image, x, y, game->textures.ceiling);
 		else if (y > ray->draw_end)
-			mlx_put_pixel(game->image, x, y, get_color(GREEN));
+			mlx_put_pixel(game->image, x, y, game->textures.floor);
 		else
 			fct(game, game->texture, x, y);
 		y++;

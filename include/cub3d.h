@@ -20,13 +20,13 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <string.h>
-# include "ft_printf.h"
 # include "get_next_line.h"
 # include "ft_string.h"
+# include "ft_stdlib.h"
 # include "ft_ctype.h"
 
 # define MAP_SIZE 210
-# define WALL_SIZE 60
+# define TEX_SIZE 256
 # define WIDTH 1500
 # define HEIGHT 1000
 
@@ -34,7 +34,6 @@ enum e_color
 {
 	WHITE,
 	BLACK,
-	GREY,
 	YELLOW,
 	RED,
 	GREEN,
@@ -64,12 +63,9 @@ typedef struct s_texture
 {
 	int				x;
 	int				y;
-	int				height;
-	int				width;
 	double			pos;
 	double			step;
 	mlx_texture_t	*data;
-	mlx_image_t		*img;
 }	t_texture;
 
 typedef struct s_ray {
@@ -93,12 +89,12 @@ typedef struct s_ray {
 }	t_ray;
 
 typedef struct s_tex {
-	char	*north;
-	char	*south;
-	char	*east;
-	char	*west;
-	int		*floor;
-	int		*ceiling;
+	char			*north;
+	char			*south;
+	char			*east;
+	char			*west;
+	unsigned int	floor;
+	unsigned int	ceiling;
 }	t_tex;
 
 typedef struct s_game {
@@ -111,7 +107,7 @@ typedef struct s_game {
 	t_tex		textures;
 }	t_game;
 
-void			print_map(t_game game);
+void			print_screen_game(t_game game);
 
 /*color.c*/
 unsigned int	get_color(int color_code);

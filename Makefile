@@ -12,7 +12,7 @@
 
 SRCS		=\
 			main.c\
-			print_map.c\
+			print_screen_game.c\
 			print_minimap.c\
 			player_infos.c\
 			textures.c\
@@ -30,9 +30,7 @@ SRCS		=\
 			read_file.c\
 			error.c
 
-SRCS_BONUS	=	main_bonus.c
 OBJS		=	${addprefix ${BUILD_DIR}/,${SRCS:c=o}}
-OBJS_BONUS	=	${addprefix ${BUILD_DIR}/,${SRCS_BONUS:c=o}}
 NAME		=	${BIN_DIR}/cub3D
 
 BUILD_DIR	=	build
@@ -45,8 +43,7 @@ CFLAGS		=	-Wall -Werror -Wextra -Wunreachable-code -g3 -Ilibft/include -Iinclude
 LIBFT_FLAGS	=	-Llibft/bin -lft
 MLX_FLAGS	=	./MLX42/build/libmlx42.a -ldl -lglfw -pthread -lm
 
-MODULE			=	printf gnl write
-MODULE_BONUS	=	printf gnl stdlib
+MODULE		=	gnl write stdlib ctype
 
 ${BUILD_DIR}/%.o : %.c
 	@${CC} ${CFLAGS} -c $< -o $@
@@ -57,23 +54,19 @@ libmlx:
 	@cmake ./MLX42 -B ./MLX42/build && make -C ./MLX42/build -j4
 
 ${NAME}:	${OBJS}
-	@make -j --no-print-directory ${MODULE} -C libft
+	@make --no-print-directory ${MODULE} -C libft
 	@${CC} ${OBJS} ${MLX_FLAGS} ${LIBFT_FLAGS} -o ${NAME}
-
-bonus:	${OBJS_BONUS}
-	@make -j --no-print-directory ${MODULE_BONUS} -C libft
-	@${CC} ${OBJS_BONUS} ${MLX_FLAGS} ${LIBFT_FLAGS} -o ${NAME}
 
 clean:
 	@make --no-print-directory fclean -C libft
-	# @rm -rf ./MLX42/build
-	@${RM} ${OBJS} ${OBJS_BONUS}
+	@${RM} ${OBJS}
 
 fclean:	clean
+	# @rm -rf ./MLX42/build
 	@${RM} ${NAME}
 
 re:	fclean all
 
-.PHONY:	all clean fclean re bonus
+.PHONY:	all clean fclean re
 
 vpath %.c src
