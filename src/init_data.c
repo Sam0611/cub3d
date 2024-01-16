@@ -12,13 +12,17 @@
 
 #include "cub3d.h"
 
-t_player	*init_player(void)
+static void	init_map(t_map *map)
 {
-	t_player	*player;
+	map->f_content = NULL;
+	map->col = 0;
+	map->row = 0;
+	map->content = NULL;
+	map->f_content = NULL;
+}
 
-	player = malloc(sizeof(t_player));
-	if (!player)
-		print_error("memory allocation failed");
+static void	init_player(t_player *player)
+{
 	player->x = 0;
 	player->y = 0;
 	player->dir = 0;
@@ -26,16 +30,10 @@ t_player	*init_player(void)
 	player->dir_y = 0;
 	player->plane_x = 0;
 	player->plane_y = 0;
-	return (player);
 }
 
-t_ray	*init_ray(void)
+static void	init_ray(t_ray *ray)
 {
-	t_ray	*ray;
-
-	ray = malloc(sizeof(t_ray));
-	if (!ray)
-		print_error("memory allocation failed");
 	ray->camera_x = 0;
 	ray->dir_x = 0;
 	ray->dir_y = 0;
@@ -53,45 +51,27 @@ t_ray	*init_ray(void)
 	ray->line_height = 0;
 	ray->draw_start = 0;
 	ray->draw_end = 0;
-	return (ray);
 }
 
-t_texture	*init_texture(void)
+static void	init_texture(t_texture *tex)
 {
-	t_texture	*tex;
-
-	tex = malloc(sizeof(t_texture));
-	if (!tex)
-		print_error("memory allocation failed");
-	tex->data = mlx_load_png("img/sonic.png");
-	if (!tex || !tex->data)
-		return (NULL);
 	tex->x = 0;
 	tex->y = 0;
 	tex->pos = 0;
 	tex->step = 0;
-	if (tex->data->width != TEX_SIZE || tex->data->height != TEX_SIZE)
-	{
-		print_error("Wrong image size, must be 256x256");
-		return (NULL);
-	}
-	return (tex);
+	tex->north = NULL;
+	tex->south = NULL;
+	tex->east = NULL;
+	tex->west = NULL;
+	tex->floor = 0;
+	tex->ceiling = 0;
 }
 
 int	init_data(t_game *game)
 {
-	mlx_image_t		*image;
-
-	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
-	if (!game->mlx)
-		return (1);
-	image = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-	if (!image || mlx_image_to_window(game->mlx, image, 0, 0) == -1)
-	{
-		mlx_close_window(game->mlx);
-		print_error("Failed to print game screen");
-		return (1);
-	}
-	game->image = image;
+	init_map(&game->map);
+	init_player(&game->player);
+	init_ray(&game->ray);
+	init_texture(&game->texture);
 	return (0);
 }

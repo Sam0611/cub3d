@@ -33,12 +33,12 @@ static int	is_param(t_map *map, t_game *game, int y, int x)
 {
 	if (map->f_content[y][x + 1] && ft_isprint(map->f_content[y][x + 1]))
 	{
-		if (!get_texture_direction(&game->textures, map->f_content[y]))
-			return (print_error("invalid textures"));
+		if (!get_texture_infos(&game->texture, map->f_content[y]))
+			return (0);
 	}
 	else
 	{
-		if (!init_color(&game->textures, map->f_content[y], x))
+		if (!init_color(&game->texture, map->f_content[y], x))
 			return (0);
 	}
 	return (1);

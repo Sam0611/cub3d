@@ -12,6 +12,8 @@
 
 #include "cub3d.h"
 
+int	init_data(t_game *game);
+
 static int	check_file(char *map_name)
 {
 	int	len;
@@ -41,18 +43,21 @@ static int	check_file(char *map_name)
 
 int	main(int ac, char **av)
 {
-	t_map	map;
 	t_game	game;
 
 	if (ac != 2)
 		return (0);
 	if (!check_file(av[1]))
 		return (1);
-	get_map(av[1], &map, &game);
-	if (!map.content)
+	init_data(&game);
+	get_map(av[1], &game);
+	if (!game.map.content)
 		return (2);
-	game.map = &map;
 	print_screen_game(game);
-	free_tab(map.content);
+	free_tab(game.map.content);
+	// mlx_delete_texture(game.texture.north);
+	// mlx_delete_texture(game.texture.south);
+	// mlx_delete_texture(game.texture.east);
+	// mlx_delete_texture(game.texture.west);
 	return (0);
 }

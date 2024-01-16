@@ -13,7 +13,7 @@
 #include "cub3d.h"
 
 #include <stdio.h> //tmp
-int	check_map_character(t_map *map)
+static int	check_map_character(t_map *map, t_player *player)
 {
 	int	y;
 	int	x;
@@ -30,8 +30,8 @@ int	check_map_character(t_map *map)
 				return (print_error("invalid map character\n"));
 			if (ft_strchr("EWNS", map->content[y][x]))
 			{
-				if (map->p_dir == 'U')
-					map->p_dir = map->content[y][x];
+				if (player->dir == 0)
+					player->dir = map->content[y][x];
 				else
 					return (print_error("multiple definition of start\n"));
 			}
@@ -90,7 +90,7 @@ int	check_textures(t_tex *tex)
 	return (1);
 }
 */
-int	check_data(t_map *map, t_tex *tex)
+static int	check_data(t_map *map)
 {
 	print_error("debug check_data");
 	if (!map->content)
@@ -99,8 +99,8 @@ int	check_data(t_map *map, t_tex *tex)
 		return (print_error("map is too small"));
 	// if (!tex->floor || !tex->ceiling)
 	// 	return (print_error("missing color"));
-	if (!tex->east || !tex->west || !tex->north || !tex->south)
-		return (print_error("missing texture"));
+	// if (!tex->east || !tex->west || !tex->north || !tex->south)
+	// 	return (print_error("missing texture"));
 	// printf("Debug: floor = %d %d %d\n", tex->floor[0], tex->floor[1], tex->floor[2]);
 	//int i = 0;
 	//while (map->content[i])
@@ -110,27 +110,26 @@ int	check_data(t_map *map, t_tex *tex)
 
 int	parse_map(t_game *game, t_map *map)
 {
-	if (!check_data(map, &game->textures))
+	if (!check_data(map))
 		return (0);
 	if (!check_outline(map))
 		return (print_error("map is not surounded by wall\n"));
 	// if (!check_textures(&game->textures))
 	// 	return (0);
-	if (!check_map_character(map))
+	if (!check_map_character(map, &game->player))
 		return (0);
 	printf("debug: parse_map: OK\n");
 	return (1);
 }
 
-void	get_map(char *filename, t_map *map, t_game *game)
+void	get_map(char *filename, t_game *game)
 {
-	initialize(game, map);
-	map->name = filename;
-	if (!get_file_content(map))
+	game->map.name = filename;
+	if (!get_file_content(&game->map))
 		exit(0); //free
-	if (!read_file(map, game))
+	if (!read_file(&game->map, game))
 		exit(0); //free
-	if (!parse_map(game, map))
+	if (!parse_map(game, &game->map))
 		exit(0); //free
 	printf("debug: get_map: OK\n");
 }

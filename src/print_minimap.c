@@ -14,6 +14,19 @@
 
 #define BLOCK_SIZE 10
 
+// default color = black
+unsigned int	get_color(int color_code)
+{
+	unsigned int	color;
+
+	color = 255;
+	if (color_code == WHITE)
+		color = 255 << 24 | 255 << 16 | 255 << 8 | 255;
+	if (color_code == RED)
+		color = 255 << 24 | 0 << 16 | 0 << 8 | 255;
+	return (color);
+}
+
 // x is horizontal coordinates, y is vertical coordinates
 static void	ft_put_pixel(mlx_image_t *image,
 		unsigned int x, unsigned int y, unsigned int color)
@@ -77,17 +90,17 @@ void	print_minimap(t_game *game)
 
 	draw_map_background(game->image);
 	distance = (MAP_SIZE - BLOCK_SIZE) / 2 / BLOCK_SIZE;
-	init_params(distance, game->player->y, &i, pos + 1);
-	while (game->map->content[i])
+	init_params(distance, game->player.y, &i, pos + 1);
+	while (game->map.content[i])
 	{
-		init_params(distance, game->player->x, &j, pos);
-		while (j < (int)ft_strlen(game->map->content[i]))
+		init_params(distance, game->player.x, &j, pos);
+		while (j < (int)ft_strlen(game->map.content[i]))
 		{
-			if (i == (int)game->player->y && j == (int)game->player->x)
+			if (i == (int)game->player.y && j == (int)game->player.x)
 				ft_put_pixel(game->image, pos[0], pos[1], get_color(RED));
-			else if (game->map->content[i][j] == '0')
+			else if (game->map.content[i][j] == '0')
 				ft_put_pixel(game->image, pos[0], pos[1], get_color(WHITE));
-			else if (game->map->content[i][j] == '1')
+			else if (game->map.content[i][j] == '1')
 				ft_put_pixel(game->image, pos[0], pos[1], get_color(BLACK));
 			j++;
 			pos[0] += BLOCK_SIZE;

@@ -12,36 +12,44 @@
 
 #include "cub3d.h"
 
-void	fct(t_game *game, t_texture *tex, int x, int y)
+static void	update_texture_infos(t_texture *tex, t_ray *ray)
+{
+    tex->x = (int)(ray->wall_x * TEX_SIZE);
+	if ((ray->side == 0 && ray->dir_x < 0) // > 0
+		|| (ray->side == 1 && ray->dir_y > 0)) // < 0
+		tex->x = TEX_SIZE - tex->x - 1;
+	tex->step = 1.0 * TEX_SIZE / ray->line_height;
+	tex->pos = (ray->draw_start - HEIGHT / 2 + ray->line_height / 2) * tex->step;
+}
+
+static void	put_texture_pixels(t_game *game, t_texture *tex, int x, int y)
 {
 	unsigned int	color;
 
-	game->texture->y = (int)game->texture->pos & (TEX_SIZE - 1);
-	game->texture->pos += tex->step;
-	color = tex->data->pixels[(tex->x + game->texture->y * TEX_SIZE) * tex->data->bytes_per_pixel] << 24;
-	color |= tex->data->pixels[(tex->x + game->texture->y * TEX_SIZE) * tex->data->bytes_per_pixel + 1] << 16;
-	color |= tex->data->pixels[(tex->x + game->texture->y * TEX_SIZE) * tex->data->bytes_per_pixel + 2] << 8;
-	color |= tex->data->pixels[(tex->x + game->texture->y * TEX_SIZE) * tex->data->bytes_per_pixel + 3];
+	// if (ray->side != 1)
+	tex->y = (int)tex->pos & (TEX_SIZE - 1);
+	tex->pos += tex->step;
+	color = tex->north->pixels[(tex->x + tex->y * TEX_SIZE) * tex->north->bytes_per_pixel] << 24;
+	color |= tex->north->pixels[(tex->x + tex->y * TEX_SIZE) * tex->north->bytes_per_pixel + 1] << 16;
+	color |= tex->north->pixels[(tex->x + tex->y * TEX_SIZE) * tex->north->bytes_per_pixel + 2] << 8;
+	color |= tex->north->pixels[(tex->x + tex->y * TEX_SIZE) * tex->north->bytes_per_pixel + 3];
 	mlx_put_pixel(game->image, x, y, color);
 }
 
 void	print_vertical_line(int x, t_game *game, t_ray *ray)
 {
 	int				y;
-	// unsigned int	wall_color;
 
-	// wall_color = get_color(YELLOW);
-	// if (ray->side != 1)
-	// 	wall_color /= 1.5;
+	update_texture_infos(&game->texture, ray);
 	y = 0;
 	while (y < (int)game->image->height)
 	{
 		if (y < ray->draw_start)
-			mlx_put_pixel(game->image, x, y, game->textures.ceiling);
+			mlx_put_pixel(game->image, x, y, game->texture.ceiling);
 		else if (y > ray->draw_end)
-			mlx_put_pixel(game->image, x, y, game->textures.floor);
+			mlx_put_pixel(game->image, x, y, game->texture.floor);
 		else
-			fct(game, game->texture, x, y);
+			put_texture_pixels(game, &game->texture, x, y);
 		y++;
 	}
 	return ;

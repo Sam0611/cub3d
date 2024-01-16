@@ -34,10 +34,15 @@ enum e_color
 {
 	WHITE,
 	BLACK,
-	YELLOW,
-	RED,
-	GREEN,
-	BLUE
+	RED
+};
+
+enum e_direction
+{
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST
 };
 
 typedef struct s_map {
@@ -46,7 +51,6 @@ typedef struct s_map {
 	char	*name;
 	int		col;
 	int		row;
-	char	p_dir;
 }	t_map;
 
 typedef struct s_player {
@@ -58,15 +62,6 @@ typedef struct s_player {
 	double		plane_y;
 	int			dir;
 }	t_player;
-
-typedef struct s_texture
-{
-	int				x;
-	int				y;
-	double			pos;
-	double			step;
-	mlx_texture_t	*data;
-}	t_texture;
 
 typedef struct s_ray {
 	double	camera_x;
@@ -88,36 +83,39 @@ typedef struct s_ray {
 	int		draw_end;
 }	t_ray;
 
-typedef struct s_tex {
-	char			*north;
-	char			*south;
-	char			*east;
-	char			*west;
+typedef struct s_texture
+{
+	int				x;
+	int				y;
+	double			pos;
+	double			step;
+	mlx_texture_t	*north;
+	mlx_texture_t	*south;
+	mlx_texture_t	*east;
+	mlx_texture_t	*west;
 	unsigned int	floor;
 	unsigned int	ceiling;
-}	t_tex;
+}	t_texture;
 
 typedef struct s_game {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
-	t_map		*map;
-	t_player	*player;
-	t_ray		*ray;
-	t_texture	*texture;
-	t_tex		textures;
+	t_map		map;
+	t_player	player;
+	t_ray		ray;
+	t_texture	texture;
 }	t_game;
 
 void			print_screen_game(t_game game);
 
 /*color.c*/
-unsigned int	get_color(int color_code);
-int				init_color(t_tex *textures, char *cur_line, int x);
+int				init_color(t_texture *texture, char *cur_line, int x);
 
 /*print_view.c*/
 void			print_view(t_game *game, t_ray ray);
 
 /*parsing.c*/
-void			get_map(char *filename, t_map *map, t_game *game);
+void			get_map(char *filename, t_game *game);
 
 /*create_map.c*/
 int				get_map_content(t_map *map, int y);
@@ -127,7 +125,7 @@ int				get_file_content(t_map *map);
 void			initialize(t_game *game, t_map *map);
 
 /*get_texture.c*/
-int				get_texture_direction(t_tex *textures, char *cur_line);
+int				get_texture_infos(t_texture *texture, char *cur_line);
 
 /*read_file.c*/
 int				read_file(t_map *map, t_game *game);

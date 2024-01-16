@@ -12,10 +12,10 @@
 
 SRCS		=\
 			main.c\
+			init_data.c\
+			error.c\
 			print_screen_game.c\
 			print_minimap.c\
-			player_infos.c\
-			textures.c\
 			game_run.c\
 			raycasting.c\
 			color.c\
@@ -23,12 +23,9 @@ SRCS		=\
 			parsing.c\
 			create_map.c\
 			get_texture.c\
-			init.c\
-			init_data.c\
 			utils.c\
 			check_outline.c\
 			read_file.c\
-			error.c
 
 OBJS		=	${addprefix ${BUILD_DIR}/,${SRCS:c=o}}
 NAME		=	${BIN_DIR}/cub3D

@@ -12,28 +12,45 @@
 
 #include "cub3d.h"
 
-int	get_texture(char **s_line, char **texture)
+// int	get_texture(char **s_line, char **texture)
+// {
+// 	int	c;
+// 	int	fd;
+
+// 	c = 0;
+// 	while (s_line[c])
+// 		c++;
+// 	if (c != 2)
+// 		return (0); //err, incorect line
+// 	fd = open(s_line[1], O_RDONLY);
+// 	if (fd == -1)
+// 		return (0); //err
+// 	close(fd);
+// 	*texture = ft_strdup(s_line[1]);
+// 	if (!texture)
+// 		return (print_error("failed to allocate memory"));
+// 	free_tab(s_line);
+// 	return (1);
+// }
+
+static int	get_texture(char **s_line, mlx_texture_t **tex_data)
 {
 	int	c;
-	int	fd;
 
 	c = 0;
 	while (s_line[c])
 		c++;
 	if (c != 2)
-		return (0); //err, incorect line
-	fd = open(s_line[1], O_RDONLY);
-	if (fd == -1)
-		return (0); //err
-	close(fd);
-	*texture = ft_strdup(s_line[1]);
-	if (!texture)
-		return (print_error("failed to allocate memory"));
-	free_tab(s_line);
+		return (print_error("Wrong texture path"));
+	*tex_data = mlx_load_png(s_line[1]);
+	if (!tex_data)
+		return (0);
+	if (tex_data[0]->width != TEX_SIZE || tex_data[0]->height != TEX_SIZE)
+		return (print_error("Wrong image size, must be 256x256"));
 	return (1);
 }
 
-int	get_texture_direction(t_tex *textures, char *cur_line)
+int	get_texture_infos(t_texture *tex, char *cur_line)
 {
 	char	**line_split;
 
@@ -41,13 +58,13 @@ int	get_texture_direction(t_tex *textures, char *cur_line)
 	if (!line_split)
 		return (0);
 	if (ft_strncmp(line_split[0], "EA", 3) == 0)
-		return (get_texture(line_split, &textures->east));
+		return (get_texture(line_split, &tex->east));
 	else if (ft_strncmp(line_split[0], "WE", 3) == 0)
-		return (get_texture(line_split, &textures->west));
+		return (get_texture(line_split, &tex->west));
 	else if (ft_strncmp(line_split[0], "NO", 3) == 0)
-		return (get_texture(line_split, &textures->north));
+		return (get_texture(line_split, &tex->north));
 	else if (ft_strncmp(line_split[0], "SO", 3) == 0)
-		return (get_texture(line_split, &textures->south));
+		return (get_texture(line_split, &tex->south));
 	free_tab(line_split);
 	return (0);
 }

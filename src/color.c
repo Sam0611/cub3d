@@ -12,25 +12,6 @@
 
 #include "cub3d.h"
 
-// default color = black
-unsigned int	get_color(int color_code)
-{
-	unsigned int	color;
-
-	color = 255;
-	if (color_code == WHITE)
-		color = 255 << 24 | 255 << 16 | 255 << 8 | 255;
-	if (color_code == YELLOW)
-		color = 255 << 24 | 243 << 16 | 0 << 8 | 255;
-	if (color_code == RED)
-		color = 255 << 24 | 0 << 16 | 0 << 8 | 255;
-	if (color_code == GREEN)
-		color = 183 << 24 | 236 << 16 | 107 << 8 | 255;
-	if (color_code == BLUE)
-		color = 98 << 24 | 191 << 16 | 255 << 8 | 255;
-	return (color);
-}
-
 static char	**create_rgb_char_array(char *line)
 {
 	int		c;
@@ -85,7 +66,7 @@ static int	check_color_param(char **rgb_tab)
 	return (1);
 }
 
-int	init_color(t_tex *textures, char *cur_line, int x)
+int	init_color(t_texture *tex, char *cur_line, int x)
 {
 	char	**rgb_tab;
 
@@ -95,9 +76,9 @@ int	init_color(t_tex *textures, char *cur_line, int x)
 		if (!rgb_tab || !check_color_param(rgb_tab))
 			return (0);
 		if (cur_line[x] == 'C')
-			textures->ceiling = get_rgb(rgb_tab);
+			tex->ceiling = get_rgb(rgb_tab);
 		if (cur_line[x] == 'F')
-			textures->floor = get_rgb(rgb_tab);
+			tex->floor = get_rgb(rgb_tab);
 		free_tab(rgb_tab);
 		return (1);
 	}
