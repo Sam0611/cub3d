@@ -15,8 +15,8 @@
 static void	update_texture_infos(t_texture *tex, t_ray *ray)
 {
     tex->x = (int)(ray->wall_x * TEX_SIZE);
-	if ((ray->side == 0 && ray->dir_x < 0) // > 0
-		|| (ray->side == 1 && ray->dir_y > 0)) // < 0
+	if ((ray->side == 0 && ray->dir_x < 0)
+		|| (ray->side == 1 && ray->dir_y > 0))
 		tex->x = TEX_SIZE - tex->x - 1;
 	tex->step = 1.0 * TEX_SIZE / ray->line_height;
 	tex->pos = (ray->draw_start - HEIGHT / 2 + ray->line_height / 2) * tex->step;
@@ -25,14 +25,21 @@ static void	update_texture_infos(t_texture *tex, t_ray *ray)
 static void	put_texture_pixels(t_game *game, t_texture *tex, int x, int y)
 {
 	unsigned int	color;
+	mlx_texture_t	*tex_data;
 
-	// if (ray->side != 1)
+	tex_data = tex->north;
+	if (game->ray.side == 0 && game->ray.dir_x < 0)
+		tex_data = tex->west;
+	if (game->ray.side == 0 && game->ray.dir_x > 0)
+		tex_data = tex->east;
+	if (game->ray.side == 1 && game->ray.dir_y > 0)
+		tex_data = tex->south;
 	tex->y = (int)tex->pos & (TEX_SIZE - 1);
 	tex->pos += tex->step;
-	color = tex->north->pixels[(tex->x + tex->y * TEX_SIZE) * tex->north->bytes_per_pixel] << 24;
-	color |= tex->north->pixels[(tex->x + tex->y * TEX_SIZE) * tex->north->bytes_per_pixel + 1] << 16;
-	color |= tex->north->pixels[(tex->x + tex->y * TEX_SIZE) * tex->north->bytes_per_pixel + 2] << 8;
-	color |= tex->north->pixels[(tex->x + tex->y * TEX_SIZE) * tex->north->bytes_per_pixel + 3];
+	color = tex_data->pixels[(tex->x + tex->y * TEX_SIZE) * tex_data->bytes_per_pixel] << 24;
+	color |= tex_data->pixels[(tex->x + tex->y * TEX_SIZE) * tex_data->bytes_per_pixel + 1] << 16;
+	color |= tex_data->pixels[(tex->x + tex->y * TEX_SIZE) * tex_data->bytes_per_pixel + 2] << 8;
+	color |= tex_data->pixels[(tex->x + tex->y * TEX_SIZE) * tex_data->bytes_per_pixel + 3];
 	mlx_put_pixel(game->image, x, y, color);
 }
 

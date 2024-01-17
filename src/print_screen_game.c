@@ -10,12 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// textures img
-
 // valgrind + norminette
 // error msg
-// suppr .txt .xpm
-// makefile fclean
 
 #include "cub3d.h"
 

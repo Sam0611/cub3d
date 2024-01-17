@@ -37,14 +37,6 @@ enum e_color
 	RED
 };
 
-enum e_direction
-{
-	NORTH,
-	SOUTH,
-	EAST,
-	WEST
-};
-
 typedef struct s_map {
 	char	**content;
 	char	**f_content;
@@ -105,8 +97,6 @@ typedef struct s_game {
 	t_ray		ray;
 	t_texture	texture;
 }	t_game;
-
-void			print_screen_game(t_game game);
 
 /*color.c*/
 int				init_color(t_texture *texture, char *cur_line, int x);

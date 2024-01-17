@@ -59,7 +59,7 @@ clean:
 	@${RM} ${OBJS}
 
 fclean:	clean
-	# @rm -rf ./MLX42/build
+	@rm -rf ./MLX42/build
 	@${RM} ${NAME}
 
 re:	fclean all

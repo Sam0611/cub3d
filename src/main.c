@@ -12,7 +12,8 @@
 
 #include "cub3d.h"
 
-int	init_data(t_game *game);
+int		init_data(t_game *game);
+void	print_screen_game(t_game game);
 
 static int	check_file(char *map_name)
 {
@@ -55,9 +56,9 @@ int	main(int ac, char **av)
 		return (2);
 	print_screen_game(game);
 	free_tab(game.map.content);
-	// mlx_delete_texture(game.texture.north);
-	// mlx_delete_texture(game.texture.south);
-	// mlx_delete_texture(game.texture.east);
-	// mlx_delete_texture(game.texture.west);
+	mlx_delete_texture(game.texture.north);
+	mlx_delete_texture(game.texture.south);
+	mlx_delete_texture(game.texture.east);
+	mlx_delete_texture(game.texture.west);
 	return (0);
 }
