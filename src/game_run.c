@@ -6,7 +6,7 @@
 /*   By: smalloir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 14:36:19 by smalloir          #+#    #+#             */
-/*   Updated: 2024/01/11 20:11:42 by sam              ###   ########.fr       */
+/*   Updated: 2024/01/17 19:20:39 by smalloir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ static void	player_rotate(t_game *game, t_player *player)
 	}
 }
 
-static void	check_wall_collision(t_game *game, t_player *player, double x, double y)
+static void	check_wall_collision(t_game *game,
+		t_player *player, double x, double y)
 {
 	if (game->map.content[(int)y][(int)x] == '1')
 		return ;
@@ -76,11 +77,6 @@ static void	player_move(t_game *game, t_player *player, double x, double y)
 		y += player->dir_x * SPEED;
 	}
 	check_wall_collision(game, player, x, y);
-	// if (game->map.content[(int)y][(int)x] != '1')
-	// {
-	// 	player->x = x;
-	// 	player->y = y;
-	// }
 }
 
 void	game_run(void *param)

@@ -90,15 +90,15 @@ int	check_textures(t_tex *tex)
 	return (1);
 }
 */
-static int	check_data(t_map *map)
+static int	check_data(t_map *map, t_texture tex)
 {
 	print_error("debug check_data");
 	if (!map->content)
 		return (print_error("no map"));
 	if (map->row < 3 || map->col < 3)
 		return (print_error("map is too small"));
-	// if (!tex->floor || !tex->ceiling)
-	// 	return (print_error("missing color"));
+	if (!tex.floor || !tex.ceiling)
+		return (print_error("wrong color parameters"));
 	// if (!tex->east || !tex->west || !tex->north || !tex->south)
 	// 	return (print_error("missing texture"));
 	// printf("Debug: floor = %d %d %d\n", tex->floor[0], tex->floor[1], tex->floor[2]);
@@ -110,7 +110,7 @@ static int	check_data(t_map *map)
 
 int	parse_map(t_game *game, t_map *map)
 {
-	if (!check_data(map))
+	if (!check_data(map, game->texture))
 		return (0);
 	if (!check_outline(map))
 		return (print_error("map is not surounded by wall\n"));

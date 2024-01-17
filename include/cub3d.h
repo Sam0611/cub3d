@@ -6,20 +6,20 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:39:21 by smalloir          #+#    #+#             */
-/*   Updated: 2024/01/14 04:51:05 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/17 19:15:53 by smalloir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <MLX42/MLX42.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <string.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <math.h>
+# include <MLX42/MLX42.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <string.h>
 # include "get_next_line.h"
 # include "ft_string.h"
 # include "ft_stdlib.h"

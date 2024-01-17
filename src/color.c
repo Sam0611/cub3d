@@ -38,10 +38,19 @@ static char	**create_rgb_char_array(char *line)
 static unsigned int	get_rgb(char **rgb_tab)
 {
 	unsigned int	rgb;
+	int				c;
+	int				i;
 
-	rgb = ft_atoi(rgb_tab[0]) << 24;
-	rgb |= ft_atoi(rgb_tab[1]) << 16;
-	rgb |= ft_atoi(rgb_tab[2]) << 8;
+	i = 0;
+	rgb = 0;
+	while (rgb_tab[i])
+	{
+		c = ft_atoi(rgb_tab[i]);
+		if (c < 0 || c > 255)
+			return (0);
+		rgb |= c << (24 - 8 * i);
+		i++;
+	}
 	rgb |= 255;
 	return (rgb);
 }
@@ -58,7 +67,7 @@ static int	check_color_param(char **rgb_tab)
 		while (rgb_tab[i][j])
 		{
 			if (!ft_isdigit(rgb_tab[i][j]))
-				return (print_error("wrong color parameters"));
+				return (0);
 			j++;
 		}
 		i++;
