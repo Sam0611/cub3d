@@ -42,6 +42,17 @@ static void	player_rotate(t_game *game, t_player *player)
 	}
 }
 
+static void	check_wall_collision(t_game *game, t_player *player, double x, double y)
+{
+	if (game->map.content[(int)y][(int)x] == '1')
+		return ;
+	if (game->map.content[(int)y][(int)player->x] == '1'
+		&& game->map.content[(int)player->y][(int)x] == '1')
+		return ;
+	player->x = x;
+	player->y = y;
+}
+
 static void	player_move(t_game *game, t_player *player, double x, double y)
 {
 	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
@@ -64,11 +75,12 @@ static void	player_move(t_game *game, t_player *player, double x, double y)
 		x -= player->dir_y * SPEED;
 		y += player->dir_x * SPEED;
 	}
-	if (game->map.content[(int)y][(int)x] != '1')
-	{
-		player->x = x;
-		player->y = y;
-	}
+	check_wall_collision(game, player, x, y);
+	// if (game->map.content[(int)y][(int)x] != '1')
+	// {
+	// 	player->x = x;
+	// 	player->y = y;
+	// }
 }
 
 void	game_run(void *param)

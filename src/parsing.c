@@ -118,6 +118,8 @@ int	parse_map(t_game *game, t_map *map)
 	// 	return (0);
 	if (!check_map_character(map, &game->player))
 		return (0);
+	if (game->player.dir == 0)
+		return (0);
 	printf("debug: parse_map: OK\n");
 	return (1);
 }
