@@ -66,8 +66,10 @@ static int	check_color_param(char **rgb_tab)
 		j = 0;
 		while (rgb_tab[i][j])
 		{
+			while (is_whitespace(rgb_tab[i][j]))
+				j++;
 			if (!ft_isdigit(rgb_tab[i][j]))
-				return (0);
+				return (print_error("wrong color parameters"));
 			j++;
 		}
 		i++;
@@ -79,9 +81,10 @@ int	init_color(t_texture *tex, char *cur_line, int x)
 {
 	char	**rgb_tab;
 
-	if ((cur_line[x] == 'C' || cur_line[x] == 'F') && cur_line[x + 1] == ' ')
+	if ((cur_line[x] == 'C' || cur_line[x] == 'F')
+		&& (cur_line[x + 1] == ' ' || cur_line[x + 1] == 9))
 	{
-		rgb_tab = create_rgb_char_array(cur_line + 2);
+		rgb_tab = create_rgb_char_array(cur_line + x + 1);
 		if (!rgb_tab || !check_color_param(rgb_tab))
 			return (0);
 		if (cur_line[x] == 'C')

@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int	check_first_and_last_line(char **map_content, int y)
+static int	check_first_and_last_line(char **map_content, int y)
 {
 	int	x;
 
@@ -30,7 +30,6 @@ int	check_first_and_last_line(char **map_content, int y)
 	return (1);
 }
 
-#include <stdio.h> //TMP
 int	check_outline(t_map *map)
 {
 	int	y;

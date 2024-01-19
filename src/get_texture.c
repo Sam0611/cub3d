@@ -12,27 +12,6 @@
 
 #include "cub3d.h"
 
-// int	get_texture(char **s_line, char **texture)
-// {
-// 	int	c;
-// 	int	fd;
-
-// 	c = 0;
-// 	while (s_line[c])
-// 		c++;
-// 	if (c != 2)
-// 		return (0); //err, incorect line
-// 	fd = open(s_line[1], O_RDONLY);
-// 	if (fd == -1)
-// 		return (0); //err
-// 	close(fd);
-// 	*texture = ft_strdup(s_line[1]);
-// 	if (!texture)
-// 		return (print_error("failed to allocate memory"));
-// 	free_tab(s_line);
-// 	return (1);
-// }
-
 static int	get_texture(char **s_line, mlx_texture_t **tex_data)
 {
 	int	c;
