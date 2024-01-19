@@ -54,8 +54,8 @@ static void	get_player_coordinates(t_map *map, t_player *player)
 			break ;
 		i++;
 	}
-	player->y = i;
-	player->x = j;
+	player->y = i + 0.5;
+	player->x = j + 0.5;
 	player->dir = map->content[i][j];
 	map->content[i][j] = '0';
 }
