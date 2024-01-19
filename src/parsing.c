@@ -6,7 +6,7 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:40:01 by sbeaucie          #+#    #+#             */
-/*   Updated: 2024/01/14 11:58:56 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/19 03:27:51 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int	check_textures(t_tex *tex)
 */
 static int	check_data(t_map *map, t_texture tex)
 {
-	print_error("debug check_data");
 	if (!map->content)
 		return (print_error("no map"));
 	if (map->row < 3 || map->col < 3)
@@ -120,20 +119,35 @@ int	parse_map(t_game *game, t_map *map)
 		return (0);
 	if (game->player.dir == 0)
 		return (0);
-	printf("debug: parse_map: OK\n");
 	return (1);
+}
+
+static int	error_free(t_game *game)
+{
+	if (game->map.content)
+		free_tab(game->map.content);
+	if (game->map.f_content)
+		free_tab(game->map.f_content);
+	if (game->texture.north)
+		mlx_delete_texture(game->texture.north);
+	if (game->texture.south)
+		mlx_delete_texture(game->texture.south);
+	if (game->texture.east)
+		mlx_delete_texture(game->texture.east);
+	if (game->texture.west)
+		mlx_delete_texture(game->texture.west);
+	return (0);
 }
 
 void	get_map(char *filename, t_game *game)
 {
 	game->map.name = filename;
 	if (!get_file_content(&game->map))
-		exit(0); //free
+		exit(error_free(game)); //free
 	if (!read_file(&game->map, game))
-		exit(0); //free
+		exit(error_free(game)); //free
 	if (!parse_map(game, &game->map))
-		exit(0); //free
-	printf("debug: get_map: OK\n");
+		exit(error_free(game)); //free
 }
 
 //todo list
