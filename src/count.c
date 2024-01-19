@@ -6,13 +6,13 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 16:17:09 by sbeaucie          #+#    #+#             */
-/*   Updated: 2024/01/19 16:17:52 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/19 17:28:15 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	count_row(char **f_content, int y)
+int	count_row(t_map *map, char **f_content, int y)
 {
 	int			x;
 	int			first_row;
@@ -28,6 +28,7 @@ int	count_row(char **f_content, int y)
 			break ;
 		y++;
 	}
+	map->eom = y;
 	return (y - first_row);
 }
 

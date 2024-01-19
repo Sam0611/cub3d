@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int	count_row(char **f_content, int y);
+int	count_row(t_map *map, char **f_content, int y);
 int	count_col(char **f_content, int y);
 
 static int	fill_map(t_map *map, int f_row)
@@ -84,9 +84,31 @@ int	fill_void(t_map *map)
 	return (1);
 }
 
+int	check_end_of_file(t_map *map)
+{
+	int	y;
+	int	x;
+
+	y = map->eom;
+	while (map->f_cont[y])
+	{
+		x = 0;
+		while (map->f_cont[y][x])
+		{
+			if (!is_whitespace(map->f_cont[y][x]))
+				return (0);
+			x++;
+		}
+		y++;
+	}
+	return (1);
+}
+
 int	get_map_content(t_map *map, int y)
 {
-	map->row = count_row(map->f_cont, y);
+	map->row = count_row(map, map->f_cont, y);
+	if (!check_end_of_file(map))
+		return (print_error("map is not at the end of file"));
 	map->col = count_col(map->f_cont, y);
 	map->content = (char **)malloc(sizeof(char *) * (map->row + 1));
 	if (!map->content)

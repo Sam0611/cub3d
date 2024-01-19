@@ -6,7 +6,7 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 20:13:13 by sam               #+#    #+#             */
-/*   Updated: 2024/01/19 16:06:19 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/19 17:36:28 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	init_map(t_map *map)
 	map->f_cont = NULL;
 	map->col = 0;
 	map->row = 0;
+	map->eom = 0;
 	map->content = NULL;
 }
 

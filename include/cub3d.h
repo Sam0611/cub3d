@@ -6,7 +6,7 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:39:21 by smalloir          #+#    #+#             */
-/*   Updated: 2024/01/19 16:05:15 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/19 17:25:27 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_map {
 	char	*name;
 	int		col;
 	int		row;
+	int		eom;
 }	t_map;
 
 typedef struct s_player {
