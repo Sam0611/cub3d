@@ -125,7 +125,6 @@ int				check_outline(t_map *map);
 
 /*utils.c*/
 int				is_whitespace(char c);
-int				ft_isprint(int c);
 int				ft_isdigit(int c); //Temporary
 void			free_tab(char **tab);
 

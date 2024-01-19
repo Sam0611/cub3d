@@ -12,13 +12,6 @@
 
 #include "cub3d.h"
 
-int	ft_isprint(int c)
-{
-	if (c >= 33 && c <= 126)
-		return (1);
-	return (0);
-}
-
 int	is_whitespace(char c)
 {
 	if (c == ' ' || (c >= 9 && c <= 13))

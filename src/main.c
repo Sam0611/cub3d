@@ -23,7 +23,7 @@ static int	check_file(char *map_name)
 	len = ft_strlen(map_name) - 4;
 	if (len <= 0 || ft_strncmp(map_name + len, ".cub", 5))
 	{
-		print_error("texture file is not .cub\n");
+		print_error("texture file is not .cub");
 		return (0);
 	}
 	fd = open(map_name, O_DIRECTORY);

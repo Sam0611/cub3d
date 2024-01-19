@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int	count_row(char **f_content, int y)
+static int	count_row(char **f_content, int y)
 {
 	int			x;
 	int			first_row;
@@ -31,7 +31,7 @@ int	count_row(char **f_content, int y)
 	return (y - first_row);
 }
 
-int	count_col(char **f_content, int y)
+static int	count_col(char **f_content, int y)
 {
 	int	res;
 	int	line_size;
@@ -47,7 +47,7 @@ int	count_col(char **f_content, int y)
 	return (res);
 }
 
-int	fill_map(t_map *map, int f_row)
+static int	fill_map(t_map *map, int f_row)
 {
 	int	y;
 	int	x;
@@ -77,12 +77,24 @@ int	fill_map(t_map *map, int f_row)
 	return (1);
 }
 
+bool is_adjacent_to_zero(t_map *map, int y, int x) 
+{
+	if ((y > 0 && map->content[y - 1][x] == '0') 
+		|| (y < map->row - 1 && map->content[y + 1][x] == '0'))
+		return (true);
+	else if (x > 0 && map->content[y][x - 1] == '0')
+		return (true);
+	else if (x < map->content[y][ft_strlen(map->content[y]) - 1] 
+		&& map->content[y][x + 1] == '0')
+		return (true);
+	return (false);
+}
+
 int	fill_void(t_map *map)
 {
 	int	x;
 	int	y;
 
-	print_error("debug fill_void");
 	y = 0;
 	while (map->content[y])
 	{
@@ -93,12 +105,8 @@ int	fill_void(t_map *map)
 		{
 			if (map->content[y][x] == ' ' && x < (int)ft_strlen(map->content[y]))
 			{
-				if ((y > 0 && map->content[y - 1][x] == '0') || (y < map->row - 1 && map->content[y + 1][x] == '0'))
-					return (print_error("debug"));
-				else if (x > 0 && map->content[y][x - 1] == '0')
-					return (print_error("debug1"));
-				else if (x < map->content[y][ft_strlen(map->content[y]) - 1] && map->content[y][x + 1] == '0')
-					return (print_error("debug2"));
+				if (is_adjacent_to_zero(map, y, x))
+                    return (0);
 				map->content[y][x] = '1';
 			}
 			x++;
@@ -118,6 +126,6 @@ int	get_map_content(t_map *map, int y)
 	if (!fill_map(map, y))
 		return (0);
 	if (!fill_void(map))
-		return (0);
+		return (print_error("hole in map"));
 	return (1);
 }
