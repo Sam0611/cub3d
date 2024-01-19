@@ -26,6 +26,7 @@ SRCS		=\
 			utils.c\
 			check_outline.c\
 			read_file.c\
+			count.c
 
 OBJS		=	${addprefix ${BUILD_DIR}/,${SRCS:c=o}}
 NAME		=	${BIN_DIR}/cub3D

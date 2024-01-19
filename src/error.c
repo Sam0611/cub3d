@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void	ft_putstr_fd(char *s, int fd) //tmp
+void	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
 

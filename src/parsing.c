@@ -6,13 +6,12 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:40:01 by sbeaucie          #+#    #+#             */
-/*   Updated: 2024/01/19 03:27:51 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:35:38 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-#include <stdio.h> //tmp
 static int	check_map_character(t_map *map, t_player *player)
 {
 	int	y;
@@ -51,7 +50,7 @@ static int	check_data(t_map *map, t_texture tex)
 	if (!tex.floor || !tex.ceiling)
 		return (print_error("wrong color parameters"));
 	if (!tex.east || !tex.west || !tex.north || !tex.south)
-	 	return (print_error("missing texture"));
+		return (print_error("missing texture"));
 	return (1);
 }
 
@@ -72,8 +71,8 @@ static int	error_free(t_game *game)
 {
 	if (game->map.content)
 		free_tab(game->map.content);
-	if (game->map.f_content)
-		free_tab(game->map.f_content);
+	if (game->map.f_cont)
+		free_tab(game->map.f_cont);
 	if (game->texture.north)
 		mlx_delete_texture(game->texture.north);
 	if (game->texture.south)
@@ -87,11 +86,12 @@ static int	error_free(t_game *game)
 
 void	get_map(char *filename, t_game *game)
 {
-	game->map.name = filename; //Utile ?
+	game->map.name = filename;
 	if (!get_file_content(&game->map))
 		exit(error_free(game));
 	if (!read_file(&game->map, game))
 		exit(error_free(game));
 	if (!parse_map(game, &game->map))
 		exit(error_free(game));
+	free_tab(game->map.f_cont);
 }

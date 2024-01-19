@@ -6,7 +6,7 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:42:03 by smalloir          #+#    #+#             */
-/*   Updated: 2024/01/14 05:47:13 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:51:37 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,13 @@ int	init_color(t_texture *tex, char *cur_line, int x)
 		&& (cur_line[x + 1] == ' ' || cur_line[x + 1] == 9))
 	{
 		rgb_tab = create_rgb_char_array(cur_line + x + 1);
-		if (!rgb_tab || !check_color_param(rgb_tab))
+		if (!rgb_tab)
 			return (0);
+		if (!check_color_param(rgb_tab))
+		{
+			free_tab(rgb_tab);
+			return (0);
+		}
 		if (cur_line[x] == 'C')
 			tex->ceiling = get_rgb(rgb_tab);
 		if (cur_line[x] == 'F')

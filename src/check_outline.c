@@ -54,4 +54,3 @@ int	check_outline(t_map *map)
 		return (0);
 	return (1);
 }
-

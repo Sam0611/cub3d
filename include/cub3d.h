@@ -6,7 +6,7 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:39:21 by smalloir          #+#    #+#             */
-/*   Updated: 2024/01/17 19:15:53 by smalloir         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:05:15 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ enum e_color
 
 typedef struct s_map {
 	char	**content;
-	char	**f_content;
+	char	**f_cont;
 	char	*name;
 	int		col;
 	int		row;

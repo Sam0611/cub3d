@@ -23,9 +23,13 @@ static int	get_texture(char **s_line, mlx_texture_t **tex_data)
 		return (print_error("Wrong texture path"));
 	*tex_data = mlx_load_png(s_line[1]);
 	if (!*tex_data)
+	{
+		free_tab(s_line);
 		return (0);
+	}
 	if (tex_data[0]->width != TEX_SIZE || tex_data[0]->height != TEX_SIZE)
 		return (print_error("Wrong image size, must be 256x256"));
+	free_tab(s_line);
 	return (1);
 }
 
