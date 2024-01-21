@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game_run.c                                         :+:      :+:    :+:   */
+/*   game_run_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smalloir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 #define SPEED 0.2
 
+void	print_minimap(t_game *game);
 void	raycasting(t_game *game);
 
 static void	player_rotate(t_game *game, t_player *player)
@@ -88,4 +89,5 @@ void	game_run(void *param)
 	player_move(game, &game->player, game->player.x, game->player.y);
 	player_rotate(game, &game->player);
 	raycasting(game);
+	print_minimap(game);
 }
