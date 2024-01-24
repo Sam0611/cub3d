@@ -43,7 +43,7 @@ int	get_texture_infos(t_texture *tex, char *cur_line)
 {
 	char	**line_split;
 
-	line_split = ft_split(cur_line, ' ');
+	line_split = ft_split(cur_line, ' '); //split tab
 	if (!line_split)
 		return (FAILURE);
 	if (ft_strncmp(line_split[0], "EA", 3) == 0)
@@ -55,5 +55,6 @@ int	get_texture_infos(t_texture *tex, char *cur_line)
 	else if (ft_strncmp(line_split[0], "SO", 3) == 0)
 		return (get_texture(line_split, &tex->south));
 	free_tab(line_split);
+	print_error("Wrong parameters");
 	return (FAILURE);
 }

@@ -61,7 +61,7 @@ int	read_file(t_map *map, t_game *game)
 		x = 0;
 		while (map->f_cont[y][x])
 		{
-			while (map->f_cont[y][x] && ft_strchr(" \t\n", map->f_cont[y][x]))
+			while (map->f_cont[y][x] && ft_strchr(" \t", map->f_cont[y][x]))
 				x++;
 			if (!ft_isdigit(map->f_cont[y][x]) && ft_isprint(map->f_cont[y][x]))
 			{

@@ -6,7 +6,7 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:42:03 by smalloir          #+#    #+#             */
-/*   Updated: 2024/01/23 05:11:03 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/24 20:03:03 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,6 @@ int	init_color(t_texture *tex, char *cur_line, int x)
 		free_tab(rgb_tab);
 		return (1);
 	}
+	print_error("Wrong parameters");
 	return (FAILURE);
 }

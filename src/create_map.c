@@ -46,13 +46,13 @@ static int	fill_map(t_map *map, int f_row)
 
 bool	is_adjacent_to_zero(t_map *map, int y, int x)
 {
-	if ((y > 0 && map->content[y - 1][x] == '0')
-		|| (y < map->row - 1 && map->content[y + 1][x] == '0'))
+	if ((y > 0 && ft_strchr("0NSEW", map->content[y - 1][x]))
+		|| (y < map->row - 1 && ft_strchr("0NSEW", map->content[y + 1][x])))
 		return (true);
-	else if (x > 0 && map->content[y][x - 1] == '0')
+	else if (x > 0 && ft_strchr("0NSEW", map->content[y][x - 1]))
 		return (true);
 	else if (x < map->content[y][ft_strlen(map->content[y]) - 1]
-		&& map->content[y][x + 1] == '0')
+		&& ft_strchr("0NSEW", map->content[y][x + 1]))
 		return (true);
 	return (false);
 }
@@ -83,13 +83,14 @@ int	fill_void(t_map *map)
 	}
 	return (SUCCESS);
 }
-
+#include <stdio.h>
 int	check_end_of_file(t_map *map)
 {
 	int	y;
 	int	x;
 
 	y = map->eom;
+	printf("%d\n", y);
 	while (map->f_cont[y])
 	{
 		x = 0;
@@ -106,13 +107,13 @@ int	check_end_of_file(t_map *map)
 
 int	get_map_content(t_map *map, int y)
 {
+	map->col = count_col(map->f_cont, y);
 	map->row = count_row(map, map->f_cont, y);
 	if (!check_end_of_file(map))
 	{
 		print_error("map is not at the end of file");
 		return (FAILURE);
 	}
-	map->col = count_col(map->f_cont, y);
 	map->content = (char **)malloc(sizeof(char *) * (map->row + 1));
 	if (!map->content)
 	{
