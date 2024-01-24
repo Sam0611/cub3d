@@ -13,6 +13,7 @@
 #include "cub3d.h"
 
 #define CENTER 0.5
+#define FOV_DEGREE 0.66
 
 void		game_run(void *param);
 
@@ -21,22 +22,22 @@ static void	set_player_direction(t_player *player)
 	if (player->dir == 'N')
 	{
 		player->dir_y = -1;
-		player->plane_x = 0.66;
+		player->plane_x = FOV_DEGREE;
 	}
 	if (player->dir == 'S')
 	{
 		player->dir_y = 1;
-		player->plane_x = -0.66;
+		player->plane_x = -FOV_DEGREE;
 	}
 	if (player->dir == 'E')
 	{
 		player->dir_x = 1;
-		player->plane_y = 0.66;
+		player->plane_y = FOV_DEGREE;
 	}
 	if (player->dir == 'W')
 	{
 		player->dir_x = -1;
-		player->plane_y = -0.66;
+		player->plane_y = -FOV_DEGREE;
 	}
 }
 

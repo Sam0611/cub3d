@@ -6,7 +6,7 @@
 /*   By: smalloir <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:36:47 by smalloir          #+#    #+#             */
-/*   Updated: 2024/01/14 17:33:38 by smalloir         ###   ########.fr       */
+/*   Updated: 2024/01/23 21:58:34 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void	print_vertical_line(int x, t_game *game, t_ray *ray);
 
+//camera_x is the x coordinate on the camera plane that i represents
+//plane_x/y is the camera plane of the player
+//the camera plane is perpendicular to the direction
 static void	init_raycasting_info(int i, t_ray *ray, t_player *player)
 {
 	ray->map_x = (int)player->x;
@@ -25,6 +28,9 @@ static void	init_raycasting_info(int i, t_ray *ray, t_player *player)
 	ray->deltadist_y = fabs(1 / ray->dir_y);
 }
 
+// sidedist is the distance between start position and the first x/y side
+// deltadist is the distance between 2 x/y side
+// step is the x/y direction to step in
 static void	set_dda_values(t_ray *ray, t_player *player)
 {
 	if (ray->dir_x < 0)
@@ -49,6 +55,8 @@ static void	set_dda_values(t_ray *ray, t_player *player)
 	}
 }
 
+//Digital Differential Analyzer
+//draw line from one x (or y) coordinate to another
 static void	apply_dda(char **map, t_ray *ray)
 {
 	int	hit;

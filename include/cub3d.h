@@ -33,8 +33,6 @@
 # define SUCCESS 1
 # define FAILURE 0
 
-# define FILE_EXTENSION 4
-
 enum e_color
 {
 	WHITE,

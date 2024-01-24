@@ -12,6 +12,8 @@
 
 #include "cub3d_bonus.h"
 
+# define FILE_EXTENSION 4
+
 int		init_data(t_game *game);
 void	print_screen_game(t_game game);
 
@@ -20,26 +22,26 @@ static int	check_file(char *map_name)
 	int	len;
 	int	fd;
 
-	len = ft_strlen(map_name) - 4;
+	len = ft_strlen(map_name) - FILE_EXTENSION;
 	if (len <= 0 || ft_strncmp(map_name + len, ".cub", 5))
 	{
 		print_error("texture file is not .cub");
-		return (0);
+		return (FAILURE);
 	}
 	fd = open(map_name, O_DIRECTORY);
 	if (fd != -1)
 	{
 		perror(map_name);
-		exit(0);
+		return (FAILURE);
 	}
 	fd = open(map_name, O_RDWR, S_IRWXU);
 	if (fd < 0)
 	{
 		perror(map_name);
-		exit(0);
+		return (FAILURE);
 	}
 	close(fd);
-	return (1);
+	return (SUCCESS);
 }
 
 int	main(int ac, char **av)
@@ -47,7 +49,10 @@ int	main(int ac, char **av)
 	t_game	game;
 
 	if (ac != 2)
-		return (0);
+	{
+		print_error("map is needed: ./cub3d map/map.cub");
+		return (1);
+	}
 	if (!check_file(av[1]))
 		return (1);
 	init_data(&game);

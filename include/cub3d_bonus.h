@@ -30,6 +30,9 @@
 # define WIDTH 1500
 # define HEIGHT 1000
 
+# define SUCCESS 1
+# define FAILURE 0
+
 enum e_color
 {
 	WHITE,

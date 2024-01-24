@@ -12,6 +12,8 @@
 
 #include "cub3d.h"
 
+# define FILE_EXTENSION 4
+
 int		init_data(t_game *game);
 void	print_screen_game(t_game game);
 
