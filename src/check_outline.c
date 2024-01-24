@@ -18,16 +18,16 @@ static int	check_first_and_last_line(char **map_content, int y)
 
 	x = 0;
 	if (!map_content || !map_content[y] || !map_content[y][x])
-		return (0);
+		return (FAILURE);
 	while (is_whitespace(map_content[y][x]))
 		x++;
 	while (map_content[y][x])
 	{
 		if (map_content[y][x] != '1')
-			return (0);
+			return (FAILURE);
 		x++;
 	}
-	return (1);
+	return (SUCCESS);
 }
 
 int	check_outline(t_map *map)
@@ -36,7 +36,7 @@ int	check_outline(t_map *map)
 	int	x;
 
 	if (!check_first_and_last_line(map->content, 0))
-		return (0);
+		return (FAILURE);
 	y = 1;
 	while (y < (map->row - 1))
 	{
@@ -44,13 +44,13 @@ int	check_outline(t_map *map)
 		while (is_whitespace(map->content[y][x]))
 			x++;
 		if (map->content[y][x] != '1')
-			return (0);
+			return (FAILURE);
 		x = ft_strlen(map->content[y]) - 1;
 		if (map->content[y][x] != '1')
-			return (0);
+			return (FAILURE);
 		y++;
 	}
 	if (!check_first_and_last_line(map->content, y))
-		return (0);
-	return (1);
+		return (FAILURE);
+	return (SUCCESS);
 }

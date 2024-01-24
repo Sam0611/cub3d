@@ -20,17 +20,23 @@ static int	get_texture(char **s_line, mlx_texture_t **tex_data)
 	while (s_line[c])
 		c++;
 	if (c != 2)
-		return (print_error("Wrong texture path"));
+	{
+		print_error("Wrong texture path");
+		return (FAILURE);
+	}
 	*tex_data = mlx_load_png(s_line[1]);
 	if (!*tex_data)
 	{
 		free_tab(s_line);
-		return (0);
+		return (FAILURE);
 	}
 	if (tex_data[0]->width != TEX_SIZE || tex_data[0]->height != TEX_SIZE)
-		return (print_error("Wrong image size, must be 256x256"));
+	{
+		print_error("Wrong image size, must be 256x256");
+		return (FAILURE);
+	}
 	free_tab(s_line);
-	return (1);
+	return (SUCCESS);
 }
 
 int	get_texture_infos(t_texture *tex, char *cur_line)
@@ -39,7 +45,7 @@ int	get_texture_infos(t_texture *tex, char *cur_line)
 
 	line_split = ft_split(cur_line, ' ');
 	if (!line_split)
-		return (0);
+		return (FAILURE);
 	if (ft_strncmp(line_split[0], "EA", 3) == 0)
 		return (get_texture(line_split, &tex->east));
 	else if (ft_strncmp(line_split[0], "WE", 3) == 0)
@@ -49,5 +55,5 @@ int	get_texture_infos(t_texture *tex, char *cur_line)
 	else if (ft_strncmp(line_split[0], "SO", 3) == 0)
 		return (get_texture(line_split, &tex->south));
 	free_tab(line_split);
-	return (0);
+	return (FAILURE);
 }

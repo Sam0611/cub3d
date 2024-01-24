@@ -6,7 +6,7 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:40:01 by sbeaucie          #+#    #+#             */
-/*   Updated: 2024/01/19 16:35:38 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/23 05:22:07 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,33 +38,51 @@ static int	check_map_character(t_map *map, t_player *player)
 		}
 		y++;
 	}
-	return (1);
+	return (SUCCESS);
 }
 
 static int	check_data(t_map *map, t_texture tex)
 {
 	if (!map->content)
-		return (print_error("no map"));
+	{
+		print_error("no map");
+		return (FAILURE);
+	}
 	if (map->row < 3 || map->col < 3)
-		return (print_error("bad map"));
+	{
+		print_error("bad map");
+		return (FAILURE);
+	}
 	if (!tex.floor || !tex.ceiling)
-		return (print_error("wrong color parameters"));
+	{
+		print_error("wrong color parameters");
+		return (FAILURE);
+	}
 	if (!tex.east || !tex.west || !tex.north || !tex.south)
-		return (print_error("missing texture"));
-	return (1);
+	{
+		print_error("missing texture");
+		return (FAILURE);
+	}
+	return (SUCCESS);
 }
 
 static int	parse_map(t_game *game, t_map *map)
 {
 	if (!check_data(map, game->texture))
-		return (0);
+		return (FAILURE);
 	if (!check_outline(map))
-		return (print_error("map is not surounded by wall"));
+	{
+		print_error("map is not surounded by wall");
+		return (FAILURE);
+	}
 	if (!check_map_character(map, &game->player))
-		return (0);
+		return (FAILURE);
 	if (game->player.dir == 0)
-		return (print_error("no start position"));
-	return (1);
+	{
+		print_error("no start position");
+		return (FAILURE);
+	}
+	return (SUCCESS);
 }
 
 static int	error_free(t_game *game)
@@ -81,17 +99,26 @@ static int	error_free(t_game *game)
 		mlx_delete_texture(game->texture.east);
 	if (game->texture.west)
 		mlx_delete_texture(game->texture.west);
-	return (0);
+	return (FAILURE);
 }
 
 void	get_map(char *filename, t_game *game)
 {
 	game->map.name = filename;
 	if (!get_file_content(&game->map))
-		exit(error_free(game));
+	{
+		error_free(game);
+		exit(5);
+	}
 	if (!read_file(&game->map, game))
-		exit(error_free(game));
+	{
+		error_free(game);
+		exit(6);
+	}
 	if (!parse_map(game, &game->map))
-		exit(error_free(game));
+	{
+		error_free(game);
+		exit(7);
+	}
 	free_tab(game->map.f_cont);
 }

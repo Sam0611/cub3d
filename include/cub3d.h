@@ -6,7 +6,7 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:39:21 by smalloir          #+#    #+#             */
-/*   Updated: 2024/01/19 17:25:27 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/23 06:02:18 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@
 # define TEX_SIZE 256
 # define WIDTH 1500
 # define HEIGHT 1000
+
+# define SUCCESS 1
+# define FAILURE 0
+
+# define FILE_EXTENSION 4
 
 enum e_color
 {

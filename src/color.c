@@ -6,7 +6,7 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 16:42:03 by smalloir          #+#    #+#             */
-/*   Updated: 2024/01/19 16:51:37 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/23 05:11:03 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,15 @@ static int	check_color_param(char **rgb_tab)
 			while (is_whitespace(rgb_tab[i][j]))
 				j++;
 			if (!ft_isdigit(rgb_tab[i][j]))
-				return (print_error("wrong color parameters"));
+			{
+				print_error("wrong color parameters");
+				return (FAILURE);
+			}
 			j++;
 		}
 		i++;
 	}
-	return (1);
+	return (SUCCESS);
 }
 
 int	init_color(t_texture *tex, char *cur_line, int x)
@@ -86,11 +89,11 @@ int	init_color(t_texture *tex, char *cur_line, int x)
 	{
 		rgb_tab = create_rgb_char_array(cur_line + x + 1);
 		if (!rgb_tab)
-			return (0);
+			return (FAILURE);
 		if (!check_color_param(rgb_tab))
 		{
 			free_tab(rgb_tab);
-			return (0);
+			return (FAILURE);
 		}
 		if (cur_line[x] == 'C')
 			tex->ceiling = get_rgb(rgb_tab);
@@ -99,5 +102,5 @@ int	init_color(t_texture *tex, char *cur_line, int x)
 		free_tab(rgb_tab);
 		return (1);
 	}
-	return (0);
+	return (FAILURE);
 }
