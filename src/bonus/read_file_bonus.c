@@ -12,6 +12,8 @@
 
 #include "cub3d_bonus.h"
 
+char	**split_newline_string(char *str);
+
 int	get_file_content(t_map *map)
 {
 	int			fd;
@@ -19,14 +21,20 @@ int	get_file_content(t_map *map)
 
 	fd = open(map->name, O_RDONLY);
 	if (fd < 0)
-		return (print_error(strerror(errno)));
+	{
+		print_error(strerror(errno));
+		return (FAILURE);
+	}
 	tmp = get_all_lines(fd);
-	map->f_cont = ft_split(tmp, '\n');
+	map->f_cont = split_newline_string(tmp);
 	free(tmp);
 	close(fd);
 	if (!map->f_cont)
-		return (print_error("memory allocation failed"));
-	return (1);
+	{
+		print_error("memory allocation failed");
+		return (FAILURE);
+	}
+	return (SUCCESS);
 }
 
 static int	is_param(t_map *map, t_game *game, int y, int x)
@@ -34,14 +42,14 @@ static int	is_param(t_map *map, t_game *game, int y, int x)
 	if (map->f_cont[y][x + 1] && ft_isprint(map->f_cont[y][x + 1]))
 	{
 		if (!get_texture_infos(&game->texture, map->f_cont[y]))
-			return (0);
+			return (FAILURE);
 	}
 	else
 	{
 		if (!init_color(&game->texture, map->f_cont[y], x))
-			return (0);
+			return (FAILURE);
 	}
-	return (1);
+	return (SUCCESS);
 }
 
 int	read_file(t_map *map, t_game *game)
@@ -55,12 +63,12 @@ int	read_file(t_map *map, t_game *game)
 		x = 0;
 		while (map->f_cont[y][x])
 		{
-			while (map->f_cont[y][x] && ft_strchr(" \t\n", map->f_cont[y][x]))
+			while (map->f_cont[y][x] && ft_strchr(" \t", map->f_cont[y][x]))
 				x++;
 			if (!ft_isdigit(map->f_cont[y][x]) && ft_isprint(map->f_cont[y][x]))
 			{
 				if (!is_param(map, game, y, x))
-					return (0);
+					return (FAILURE);
 				break ;
 			}
 			else if (ft_isdigit(map->f_cont[y][x]))
@@ -69,5 +77,5 @@ int	read_file(t_map *map, t_game *game)
 		}
 		y++;
 	}
-	return (1);
+	return (SUCCESS);
 }

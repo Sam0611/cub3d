@@ -25,7 +25,8 @@ SRCS		=\
 			utils.c\
 			check_outline.c\
 			read_file.c\
-			count.c
+			count.c\
+			split_newline.c
 
 SRCS_BONUS	=\
 			main_bonus.c\
@@ -43,7 +44,8 @@ SRCS_BONUS	=\
 			utils_bonus.c\
 			check_outline_bonus.c\
 			read_file_bonus.c\
-			count_bonus.c
+			count_bonus.c\
+			split_newline_bonus.c
 
 OBJS		=	${addprefix ${BUILD_DIR}/,${SRCS:c=o}}
 OBJS_BONUS	=	${addprefix ${BUILD_DIR}/,${SRCS_BONUS:c=o}}
