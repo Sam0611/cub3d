@@ -18,7 +18,7 @@ static char	**create_rgb_char_array(char *line)
 	char	**rgb_tab;
 
 	c = 0;
-	rgb_tab = ft_split(line, ',');
+	rgb_tab = ft_split(line, ",");
 	if (!rgb_tab)
 	{
 		print_error("memory allocation failed");

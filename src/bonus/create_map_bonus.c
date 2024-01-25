@@ -41,18 +41,18 @@ static int	fill_map(t_map *map, int f_row)
 		f_row++;
 	}
 	map->content[y] = NULL;
-	return (1);
+	return (SUCCESS);
 }
 
 bool	is_adjacent_to_zero(t_map *map, int y, int x)
 {
-	if ((y > 0 && map->content[y - 1][x] == '0')
-		|| (y < map->row - 1 && map->content[y + 1][x] == '0'))
+	if ((y > 0 && ft_strchr("0NSEW", map->content[y - 1][x]))
+		|| (y < map->row - 1 && ft_strchr("0NSEW", map->content[y + 1][x])))
 		return (true);
-	else if (x > 0 && map->content[y][x - 1] == '0')
+	else if (x > 0 && ft_strchr("0NSEW", map->content[y][x - 1]))
 		return (true);
 	else if (x < map->content[y][ft_strlen(map->content[y]) - 1]
-		&& map->content[y][x + 1] == '0')
+		&& ft_strchr("0NSEW", map->content[y][x + 1]))
 		return (true);
 	return (false);
 }
@@ -74,14 +74,14 @@ int	fill_void(t_map *map)
 				&& x < (int)ft_strlen(map->content[y]))
 			{
 				if (is_adjacent_to_zero(map, y, x))
-					return (0);
+					return (FAILURE);
 				map->content[y][x] = '1';
 			}
 			x++;
 		}
 		y++;
 	}
-	return (1);
+	return (SUCCESS);
 }
 
 int	check_end_of_file(t_map *map)
@@ -96,26 +96,35 @@ int	check_end_of_file(t_map *map)
 		while (map->f_cont[y][x])
 		{
 			if (!is_whitespace(map->f_cont[y][x]))
-				return (0);
+				return (FAILURE);
 			x++;
 		}
 		y++;
 	}
-	return (1);
+	return (SUCCESS);
 }
 
 int	get_map_content(t_map *map, int y)
 {
+	map->col = count_col(map->f_cont, y);
 	map->row = count_row(map, map->f_cont, y);
 	if (!check_end_of_file(map))
-		return (print_error("map is not at the end of file"));
-	map->col = count_col(map->f_cont, y);
+	{
+		print_error("map is not at the end of file");
+		return (FAILURE);
+	}
 	map->content = (char **)malloc(sizeof(char *) * (map->row + 1));
 	if (!map->content)
-		return (print_error("failed to allocate memory"));
+	{
+		print_error("failed to allocate memory for the map");
+		return (FAILURE);
+	}
 	if (!fill_map(map, y))
-		return (0);
+		return (FAILURE);
 	if (!fill_void(map))
-		return (print_error("hole in map"));
-	return (1);
+	{
+		print_error("hole in map, tiles must be surounded by wall");
+		return (FAILURE);
+	}
+	return (SUCCESS);
 }

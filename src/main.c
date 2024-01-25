@@ -6,13 +6,13 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 16:31:21 by smalloir          #+#    #+#             */
-/*   Updated: 2024/01/23 05:09:04 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/25 18:13:25 by smalloir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-# define FILE_EXTENSION 4
+#define FILE_EXTENSION 4
 
 int		init_data(t_game *game);
 void	print_screen_game(t_game game);

@@ -25,7 +25,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 void	*ft_memset(void *s, int c, size_t n);
 void	ft_replace_char(char *str, char c1, char c2);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char const *s, char *charset);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strcpy(const char *src);
 char	*ft_strdup(const char *s);

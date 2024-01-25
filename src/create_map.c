@@ -83,14 +83,13 @@ int	fill_void(t_map *map)
 	}
 	return (SUCCESS);
 }
-#include <stdio.h>
+
 int	check_end_of_file(t_map *map)
 {
 	int	y;
 	int	x;
 
 	y = map->eom;
-	printf("%d\n", y);
 	while (map->f_cont[y])
 	{
 		x = 0;

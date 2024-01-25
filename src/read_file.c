@@ -113,7 +113,7 @@ int	get_file_content(t_map *map)
 		return (FAILURE);
 	}
 	tmp = get_all_lines(fd);
-	//map->f_cont = ft_split(tmp, '\n');
+	//map->f_cont = ft_split(tmp, "\n");
 	map->f_cont = split_newline_string(tmp);
 	int i = 0;
 	while (map->f_cont[i])
