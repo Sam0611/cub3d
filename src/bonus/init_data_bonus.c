@@ -41,10 +41,10 @@ static void	init_ray(t_ray *ray)
 	ray->map_y = 0;
 	ray->step_x = 0;
 	ray->step_y = 0;
+	ray->startdist_x = 0;
+	ray->startdist_y = 0;
 	ray->sidedist_x = 0;
 	ray->sidedist_y = 0;
-	ray->deltadist_x = 0;
-	ray->deltadist_y = 0;
 	ray->walldist = 0;
 	ray->wall_x = 0;
 	ray->side = 0;

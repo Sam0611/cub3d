@@ -1,10 +1,11 @@
 F 255,255,0
 C 0,255,255
 
-NO img/kirby.png
+NO img/kirby.png tt
 SO img/mario.png
 WE img/pacman.png
 EA img/sonic.png
+WE img/pacman.png
 
    1111111111111111111111111111111111111111111111111111111111111111111111111111111111
 111001

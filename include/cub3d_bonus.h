@@ -67,10 +67,10 @@ typedef struct s_ray {
 	int		map_y;
 	int		step_x;
 	int		step_y;
+	double	startdist_x;
+	double	startdist_y;
 	double	sidedist_x;
 	double	sidedist_y;
-	double	deltadist_x;
-	double	deltadist_y;
 	double	walldist;
 	double	wall_x;
 	int		side;
