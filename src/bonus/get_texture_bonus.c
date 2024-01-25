@@ -12,6 +12,25 @@
 
 #include "cub3d_bonus.h"
 
+static int	load_texture(char **s_line, mlx_texture_t **tex_data)
+{
+	if (*tex_data)
+		mlx_delete_texture(*tex_data);
+	*tex_data = mlx_load_png(s_line[1]);
+	if (!*tex_data)
+	{
+		free_tab(s_line);
+		return (FAILURE);
+	}
+	if (tex_data[0]->width != TEX_SIZE || tex_data[0]->height != TEX_SIZE)
+	{
+		free_tab(s_line);
+		print_error("Wrong image size, must be 256x256");
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
 static int	get_texture(char **s_line, mlx_texture_t **tex_data)
 {
 	int	c;
@@ -21,20 +40,12 @@ static int	get_texture(char **s_line, mlx_texture_t **tex_data)
 		c++;
 	if (c != 2)
 	{
+		free_tab(s_line);
 		print_error("Wrong texture path");
 		return (FAILURE);
 	}
-	*tex_data = mlx_load_png(s_line[1]);
-	if (!*tex_data)
-	{
-		free_tab(s_line);
+	if (!load_texture(s_line, tex_data))
 		return (FAILURE);
-	}
-	if (tex_data[0]->width != TEX_SIZE || tex_data[0]->height != TEX_SIZE)
-	{
-		print_error("Wrong image size, must be 256x256");
-		return (FAILURE);
-	}
 	free_tab(s_line);
 	return (SUCCESS);
 }
