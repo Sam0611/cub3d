@@ -51,7 +51,7 @@ bool	is_adjacent_to_zero(t_map *map, int y, int x)
 		return (true);
 	else if (x > 0 && ft_strchr("0NSEW", map->content[y][x - 1]))
 		return (true);
-	else if (x < map->content[y][ft_strlen(map->content[y]) - 1]
+	else if (x < (int)ft_strlen(map->content[y]) - 1
 		&& ft_strchr("0NSEW", map->content[y][x + 1]))
 		return (true);
 	return (false);
@@ -73,7 +73,7 @@ int	fill_void(t_map *map)
 			if (map->content[y][x] == ' '
 				&& x < (int)ft_strlen(map->content[y]))
 			{
-				if (is_adjacent_to_zero(map, y, x))
+				if (is_adjacent_to_zero(map, y, x) == true)
 					return (FAILURE);
 				map->content[y][x] = '1';
 			}
