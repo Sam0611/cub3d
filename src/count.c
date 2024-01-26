@@ -6,7 +6,7 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 16:17:09 by sbeaucie          #+#    #+#             */
-/*   Updated: 2024/01/26 20:39:03 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/26 22:16:02 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	count_row(t_map *map, char **f_content, int y)
 		x = 0;
 		while (f_content[y][x] && ft_strchr(whitespace, f_content[y][x]))
 			x++;
-		if (f_content[y][x] != '1' && x != map->col)
+		if (f_content[y][x] != '0' && ((f_content[y][x] != '1' && x == 0)
+			|| (f_content[y][x] != '1' && x < (int)ft_strlen(f_content[y]))))
 			break ;
 		y++;
 	}

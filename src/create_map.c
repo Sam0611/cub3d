@@ -66,8 +66,6 @@ int	fill_void(t_map *map)
 	while (map->content[y])
 	{
 		x = 0;
-		//while (is_whitespace(map->content[y][x]))
-		//	x++;
 		while (map->content[y][x])
 		{
 			if (map->content[y][x] == ' '
