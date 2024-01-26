@@ -1,10 +1,10 @@
 F 76,76,76
 C 99,99,99
 
-NO res/wall_0.jpg
-SO res/wall_1.jpg
-EA res/wall_2.jpg
-WE res/wall_3.jpg
+NO img/cub1.png
+SO img/cub2.png
+WE img/cub3.png
+EA img/cub4.png
 
 1111111111111111111
 10W1001001001000001

@@ -6,7 +6,7 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:40:01 by sbeaucie          #+#    #+#             */
-/*   Updated: 2024/01/24 20:40:51 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/26 20:53:29 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,16 @@ static int	check_data(t_map *map, t_texture tex)
 	}
 	return (SUCCESS);
 }
-
+#include <stdio.h> //tmp
 static int	parse_map(t_game *game, t_map *map)
 {
 	if (!check_data(map, game->texture))
 		return (FAILURE);
 	if (!check_outline(map))
 	{
+		int	i = 0; //tmp
+		while (map->content[i++])
+			printf("%s\n", map->content[i]);
 		print_error("map is not surounded by wall");
 		return (FAILURE);
 	}

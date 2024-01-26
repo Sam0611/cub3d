@@ -1,7 +1,7 @@
-NO res/wall_0.jpg
-SO res/wall_1.jpg
-EA res/wall_2.jpg
-WE res/wall_3.jpg
+NO img/cub1.png
+SO img/cub2.png
+WE img/cub3.png
+EA img/cub4.png
 
 F 18,53,25
 C 153,204,255

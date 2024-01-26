@@ -5,9 +5,7 @@
 
 
 
-
-NO res/wall_0.jpg
-
+NO img/cub1.png
 
 
 
@@ -15,28 +13,29 @@ NO res/wall_0.jpg
 
 
 
-SO res/wall_1.jpg
-   WE                     res/wall_3.jpg
-        EA res/wall_2.jpg            
+
+SO img/cub2.png
+   WE                     img/cub3.png
+        EA img/cub4.png
 
         F 20,           20,             20
 C 200,          200,200
 
 11111
 10001
-10S01                
+10S01
 10001
 10001
 10001
-11001               
+11001
 10001
 10001
 10001
 10001
 10001
-11111           
+11111
 
-        
+
 
 
 
