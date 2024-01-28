@@ -18,12 +18,15 @@ static char	**create_rgb_char_array(char *line)
 	char	**rgb_tab;
 
 	c = 0;
-	rgb_tab = ft_split(line, ",");
+	while (is_whitespace(line[c]))
+		c++;
+	rgb_tab = ft_split(line + c, ",");
 	if (!rgb_tab)
 	{
 		print_error("memory allocation failed");
 		return (NULL);
 	}
+	c = 0;
 	while (rgb_tab[c])
 		c++;
 	if (c != 3)
