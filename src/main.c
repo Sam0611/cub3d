@@ -32,6 +32,7 @@ static int	check_file(char *map_name)
 	if (fd != -1)
 	{
 		perror(map_name);
+		close(fd);
 		return (FAILURE);
 	}
 	fd = open(map_name, O_RDWR, S_IRWXU);
