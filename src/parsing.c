@@ -6,7 +6,7 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:40:01 by sbeaucie          #+#    #+#             */
-/*   Updated: 2024/01/26 21:15:08 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/28 22:04:06 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	check_map_character(t_map *map, t_player *player)
 		x = 0;
 		while (map->content[y][x])
 		{
-			while (is_whitespace(map->content[y][x]))
+			while (map->content[y][x] == ' ')
 				x++;
 			if (!(ft_strchr("EWNS01", map->content[y][x])))
 				return (print_error("invalid map character"));
@@ -70,13 +70,13 @@ static int	parse_map(t_game *game, t_map *map)
 {
 	if (!check_data(map, game->texture))
 		return (FAILURE);
+	if (!check_map_character(map, &game->player))
+		return (FAILURE);
 	if (!check_outline(map))
 	{
 		print_error("map is not surounded by wall");
 		return (FAILURE);
 	}
-	if (!check_map_character(map, &game->player))
-		return (FAILURE);
 	if (game->player.dir == 0)
 	{
 		print_error("no start position");

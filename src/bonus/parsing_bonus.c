@@ -6,7 +6,7 @@
 /*   By: sbeaucie <sbeaucie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 14:40:01 by sbeaucie          #+#    #+#             */
-/*   Updated: 2024/01/19 16:35:38 by sbeaucie         ###   ########.fr       */
+/*   Updated: 2024/01/28 22:21:19 by sbeaucie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ static int	parse_map(t_game *game, t_map *map)
 {
 	if (!check_data(map, game->texture))
 		return (FAILURE);
+	if (!check_map_character(map, &game->player))
+		return (FAILURE);
 	if (!check_outline(map))
 	{
 		print_error("map is not surounded by wall");
 		return (FAILURE);
 	}
-	if (!check_map_character(map, &game->player))
-		return (FAILURE);
 	if (game->player.dir == 0)
 	{
 		print_error("no start position");
