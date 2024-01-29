@@ -12,15 +12,44 @@
 
 #include "cub3d.h"
 
+#define COMA ','
+
+static int	check_comas(char *line)
+{
+	int	i;
+	int	is_coma;
+	int	is_number;
+
+	i = 0;
+	while (ft_findchar(line[i], ", \t") || ft_isdigit(line[i]))
+	{
+		is_coma = 0;
+		is_number = ft_isdigit(line[i]);
+		while (ft_isdigit(line[i]))
+			i++;
+		while (ft_findchar(line[i], ", \t"))
+		{
+			if (line[i] == COMA)
+				is_coma = 1;
+			i++;
+		}
+		if (!(!is_number || (is_number && (is_coma || !line[i]))))
+		{
+			print_error("wrong color parameters");
+			return (FAILURE);
+		}
+	}
+	return (SUCCESS);
+}
+
 static char	**create_rgb_char_array(char *line)
 {
 	int		c;
 	char	**rgb_tab;
 
-	c = 0;
-	while (is_whitespace(line[c]))
-		c++;
-	rgb_tab = ft_split(line + c, ",");
+	if (check_comas(line) == FAILURE)
+		return (NULL);
+	rgb_tab = ft_split(line, ", \t");
 	if (!rgb_tab)
 	{
 		print_error("memory allocation failed");
