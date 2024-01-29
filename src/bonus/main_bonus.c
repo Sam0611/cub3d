@@ -32,6 +32,7 @@ static int	check_file(char *map_name)
 	if (fd != -1)
 	{
 		perror(map_name);
+		close(fd);
 		return (FAILURE);
 	}
 	fd = open(map_name, O_RDWR, S_IRWXU);
@@ -54,11 +55,11 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	if (!check_file(av[1]))
-		return (1);
+		return (2);
 	init_data(&game);
 	get_map(av[1], &game);
 	if (!game.map.content)
-		return (2);
+		return (3);
 	print_screen_game(game);
 	free_tab(game.map.content);
 	mlx_delete_texture(game.texture.north);

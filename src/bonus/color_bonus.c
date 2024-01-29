@@ -12,18 +12,43 @@
 
 #include "cub3d_bonus.h"
 
+#define COMA ','
+
+static int	check_comas(char *line)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (line[i])
+	{
+		if (line[i] == COMA)
+			count++;
+		i++;
+	}
+	if (count != 2)
+	{
+		print_error("wrong color parameters");
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
 static char	**create_rgb_char_array(char *line)
 {
 	int		c;
 	char	**rgb_tab;
 
-	c = 0;
+	if (check_comas(line) == FAILURE)
+		return (NULL);
 	rgb_tab = ft_split(line, ",");
 	if (!rgb_tab)
 	{
 		print_error("memory allocation failed");
 		return (NULL);
 	}
+	c = 0;
 	while (rgb_tab[c])
 		c++;
 	if (c != 3)
@@ -59,21 +84,23 @@ static int	check_color_param(char **rgb_tab)
 {
 	int	i;
 	int	j;
+	int	is_number;
 
 	i = 0;
 	while (rgb_tab[i])
 	{
 		j = 0;
-		while (rgb_tab[i][j])
-		{
-			while (is_whitespace(rgb_tab[i][j]))
-				j++;
-			if (!ft_isdigit(rgb_tab[i][j]))
-			{
-				print_error("wrong color parameters");
-				return (FAILURE);
-			}
+		while (rgb_tab[i][j] == SPACE)
 			j++;
+		is_number = ft_isdigit(rgb_tab[i][j]);
+		while (ft_isdigit(rgb_tab[i][j]))
+			j++;
+		while (rgb_tab[i][j] == SPACE)
+			j++;
+		if (!is_number || rgb_tab[i][j])
+		{
+			print_error("wrong color parameters");
+			return (FAILURE);
 		}
 		i++;
 	}

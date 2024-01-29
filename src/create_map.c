@@ -93,7 +93,7 @@ int	check_end_of_file(t_map *map)
 		x = 0;
 		while (map->f_cont[y][x])
 		{
-			if (!is_whitespace(map->f_cont[y][x]))
+			if (map->f_cont[y][x])
 				return (FAILURE);
 			x++;
 		}

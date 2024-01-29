@@ -54,7 +54,7 @@ int	get_texture_infos(t_texture *tex, char *cur_line)
 {
 	char	**line_split;
 
-	line_split = ft_split(cur_line, " \t");
+	line_split = ft_split(cur_line, " ");
 	if (!line_split)
 		return (FAILURE);
 	if (ft_strncmp(line_split[0], "EA", 3) == 0)

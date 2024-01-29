@@ -33,6 +33,8 @@
 # define SUCCESS 1
 # define FAILURE 0
 
+# define SPACE ' '
+
 enum e_color
 {
 	WHITE,

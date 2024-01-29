@@ -15,9 +15,6 @@
 int	count_row(t_map *map, char **f_content, int y);
 int	count_col(char **f_content, int y);
 
-int	count_row(t_map *map, char **f_content, int y);
-int	count_col(char **f_content, int y);
-
 static int	fill_map(t_map *map, int f_row)
 {
 	int	y;
@@ -96,7 +93,7 @@ int	check_end_of_file(t_map *map)
 		x = 0;
 		while (map->f_cont[y][x])
 		{
-			if (!is_whitespace(map->f_cont[y][x]))
+			if (map->f_cont[y][x])
 				return (FAILURE);
 			x++;
 		}

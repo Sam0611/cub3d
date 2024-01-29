@@ -17,27 +17,20 @@
 static int	check_comas(char *line)
 {
 	int	i;
-	int	is_coma;
-	int	is_number;
+	int	count;
 
 	i = 0;
-	while (ft_findchar(line[i], ", \t") || ft_isdigit(line[i]))
+	count = 0;
+	while (line[i])
 	{
-		is_coma = 0;
-		is_number = ft_isdigit(line[i]);
-		while (ft_isdigit(line[i]))
-			i++;
-		while (ft_findchar(line[i], ", \t"))
-		{
-			if (line[i] == COMA)
-				is_coma = 1;
-			i++;
-		}
-		if (!(!is_number || (is_number && (is_coma || !line[i]))))
-		{
-			print_error("wrong color parameters");
-			return (FAILURE);
-		}
+		if (line[i] == COMA)
+			count++;
+		i++;
+	}
+	if (count != 2)
+	{
+		print_error("wrong color parameters");
+		return (FAILURE);
 	}
 	return (SUCCESS);
 }
@@ -49,7 +42,7 @@ static char	**create_rgb_char_array(char *line)
 
 	if (check_comas(line) == FAILURE)
 		return (NULL);
-	rgb_tab = ft_split(line, ", \t");
+	rgb_tab = ft_split(line, ",");
 	if (!rgb_tab)
 	{
 		print_error("memory allocation failed");
@@ -91,21 +84,23 @@ static int	check_color_param(char **rgb_tab)
 {
 	int	i;
 	int	j;
+	int	is_number;
 
 	i = 0;
 	while (rgb_tab[i])
 	{
 		j = 0;
-		while (rgb_tab[i][j])
-		{
-			while (is_whitespace(rgb_tab[i][j]))
-				j++;
-			if (!ft_isdigit(rgb_tab[i][j]))
-			{
-				print_error("wrong color parameters");
-				return (FAILURE);
-			}
+		while (rgb_tab[i][j] == SPACE)
 			j++;
+		is_number = ft_isdigit(rgb_tab[i][j]);
+		while (ft_isdigit(rgb_tab[i][j]))
+			j++;
+		while (rgb_tab[i][j] == SPACE)
+			j++;
+		if (!is_number || rgb_tab[i][j])
+		{
+			print_error("wrong color parameters");
+			return (FAILURE);
 		}
 		i++;
 	}
